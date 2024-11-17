@@ -4,9 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport"
     content="width=device-width, initial-scale=1.0">
-      <title>Veterinaria Mi mascota</title>
+      <title><%= title || "Veterinaria Mi mascota" %></title>
       <link rel="stylesheet" href="styles.css">
-      </link>
     </meta>
     </meta>
   </head>
@@ -37,6 +36,9 @@
       <section id="beneficios">
         <h2>Beneficios y Ventajas</h2>
         <ul>
+            <%beneficios.forEach(function(beneficio){ %>
+                <li><%= beneficio %></li>
+            <% }) %>
           <li>Atención personalizada y profesional.</li>
           <li>Instalaciones equipadas con tecnología de punta.</li>
           <li>Precios competitivos y accesibles.</li>
@@ -48,6 +50,9 @@
         <h2>Contáctanos</h2>
         <p>Síguenos en nuestras redes sociales:</p>
         <ul class="redes sociales">
+            <%redes.forEach(function(red){ %>
+                <li><a href="<%= red.href %>"><%= red.nombre %></a></li>
+            <% }) %>
           <li><a href="#Salud animal con Mi Mascota">Facebook</a></li>
           <li><a href="#@MiMascotaOficial">Instagram</a></li>
           <li><a href="#@CuidadosMiMascota">Twitter</a></li>
@@ -55,7 +60,7 @@
       </section>
     </main>
     <footer>
-      <p>&copy; 2024 Veterinaria Mi Mascota.
+      <p>&copy; <%= year || 2024 %> Veterinaria Mi Mascota.
         Todos los derechos reservados.</p>
     </footer>
   </body>

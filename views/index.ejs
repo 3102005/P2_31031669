@@ -1,30 +1,27 @@
-index.ejs
 <!DOCTYPE html>
 <html lang="es">
-  <head>
+<head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-    content="width=device-width, initial-scale=1.0">
-      <title><%= title || "Veterinaria Mi mascota" %></title>
-      <link rel="stylesheet" href="styles.css">
-    </meta>
-    </meta>
-  </head>
-  <body>
-    <header>
-      <h1>Veterinaria Mi Mascota</h1>
-      <nav>
-        <ul>
-          <li><a
-          href="#servicios">Servicios</a></li>
-          <li><a
-          href="#beneficios">Beneficios</a></li>
-          <li><a
-          href="#contacto">Contacto</a></li>
-        </ul>
-      </nav>
-    </header>
-    <main>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>"Veterinaria Mi mascota"</title>
+    <link rel="public" href="/public/styles.css">
+</head>
+<body>
+  <header>
+    <h1>Veterinaria Mi Mascota</h1>
+    <nav>
+      <ul>
+        <li><a
+        href="#servicios">Servicios</a></li>
+        <li><a
+        href="#beneficios">Beneficios</a></li>
+        <li><a
+        href="#contacto">Contacto</a></li>
+      </ul>
+    </nav>
+  </header>
+   
+    <div>
       <section id="servicios">
         <h2>Descripcion del Servicio</h2>
         <p>En Veterinaria Mi Mascota
@@ -34,12 +31,10 @@ index.ejs
           altamente capacitado para garantizar la salud y
           bienestar de tus animales.</p>
       </section>
+
       <section id="beneficios">
         <h2>Beneficios y Ventajas</h2>
         <ul>
-            <%beneficios.forEach(function(beneficio){ %>
-                <li><%= beneficio %></li>
-            <% }) %>
           <li>Atención personalizada y profesional.</li>
           <li>Instalaciones equipadas con tecnología de punta.</li>
           <li>Precios competitivos y accesibles.</li>
@@ -47,22 +42,20 @@ index.ejs
             necesidades.</li>
         </ul>
       </section>
+
       <section id="contacto">
         <h2>Contáctanos</h2>
         <p>Síguenos en nuestras redes sociales:</p>
         <ul class="redes sociales">
-            <%redes.forEach(function(red){ %>
-                <li><a href="<%= red.href %>"><%= red.nombre %></a></li>
-            <% }) %>
           <li><a href="#Salud animal con Mi Mascota">Facebook</a></li>
           <li><a href="#@MiMascotaOficial">Instagram</a></li>
           <li><a href="#@CuidadosMiMascota">Twitter</a></li>
         </ul>
       </section>
-    </main>
+    </div>
     <footer>
-      <p>&copy; <%= year || 2024 %> Veterinaria Mi Mascota.
+      <p>&copy; Veterinaria Mi Mascota.
         Todos los derechos reservados.</p>
     </footer>
-  </body>
+</body>
 </html>

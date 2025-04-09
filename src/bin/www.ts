@@ -9,7 +9,7 @@ const debug = debugLib('mi-proyecto:server');
 /**
  * Get port from environment and store in Express.
  */
-const port = normalizePort(process.env.PORT || '3002');
+const port = normalizePort(process.env.PORT || '3003');
 app.set('port', port);
 
 /**

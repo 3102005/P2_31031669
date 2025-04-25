@@ -8,7 +8,7 @@ body {
 
   margin: 0; /* Eliminar márgenes por defecto */
   height: 100vh; /* Altura completa de la ventana del navegador */
-  background-image: url('https://img.freepik.com/vector-premium/patron-blanco-negro-hojaspatron-botanico-costuras-estilo-escandinavo-hojas-blancas-sobre-fondo-negro-diseno-minimalista-moderno-ilustracion-vectorial_225753-2804.jpg'); /* Reemplaza con la ruta de tu imagen */
+  background-image: url('https://img.freepik.com/foto-gratis/viajar-nuevo-concepto-surtido-estilo-papel_23-2149064646.jpg?semt=ais_hybrid&w=740'); /* Reemplaza con la ruta de tu imagen */
   background-size: cover; /* Asegura que la imagen cubra todo el body */
   background-position: center; /* Centra la imagen */
   /*background-repeat: no-repeat;  Evita que la imagen se repita */
@@ -16,7 +16,7 @@ body {
 }
 
 .card {
-  background-color: #090e1ccf;      /* Color de fondo del cuadro */
+  background-color: #131f3fcf;      /* Color de fondo del cuadro */
   border-radius: 10px;          /* Esquinas redondeadas */
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Sombreado */
   padding: 20px;                /* Espaciado interno */
@@ -33,7 +33,7 @@ body {
 }
 
 header {
-  background: #090f32;
+  background: #131f3fcf;
   color: #fff;
   padding: 10px 0;
   text-align: center;
@@ -72,7 +72,7 @@ h2 {
 footer {
   text-align: center;
   padding: 10px 0;
-  background: #090f32;
+  background: #131f3fcf;
   color: #fff;
 }
 

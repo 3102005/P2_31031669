@@ -5,7 +5,7 @@ const router = express.Router();
 router.get('/', (req: Request, res: Response, next: NextFunction) => {
   res.render('index', {
     title: 'Hola mundo',
-    Nombres: 'Estefani Jeannielys',
+    Nombres: 'Estefani Jeanniely',
     Apellidos: 'Gonzalez Gonzalez',
     CI: '32.057.736',
     Seccion: '4'

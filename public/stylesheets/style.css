@@ -1,8 +1,105 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+/* Reset básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-a {
-  color: #00B7FF;
+body {
+  background-color: #fdfdfd;
+  color: #333;
+  line-height: 1.6;
+  padding: 0 1rem;
+}
+
+header {
+  background-color: #3db2ff;
+  color: white;
+  padding: 2rem 1rem;
+  text-align: center;
+  border-radius: 0 0 20px 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+  font-size: 2.5rem;
+}
+
+.descripcion,
+.beneficios,
+.galeria,
+.redes {
+  margin: 2rem 0;
+  padding: 1rem;
+  border-radius: 12px;
+  background-color: #f0f8ff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+h2 {
+  color: #2e86de;
+  margin-bottom: 1rem;
+}
+
+ul {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+}
+
+.galeria {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.galeria img {
+  width: 100%;
+  max-width: 300px;
+  border-radius: 10px;
+}
+
+.redes ul {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.redes a {
+  text-decoration: none;
+  background-color: #3db2ff;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  transition: background 0.3s;
+}
+
+.redes a:hover {
+  background-color: #2490d8;
+}
+
+footer {
+  text-align: center;
+  padding: 1rem;
+  margin-top: 2rem;
+  font-size: 0.9rem;
+  color: #777;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  header h1 {
+    font-size: 1.8rem;
+  }
+
+  .galeria img {
+    max-width: 90%;
+  }
+
+  .redes ul {
+    flex-direction: column;
+    align-items: center;
+  }
 }

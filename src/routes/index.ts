@@ -5,9 +5,9 @@ const router = express.Router();
 router.get('/', (req: Request, res: Response, next: NextFunction) => {
   res.render('index', {
     title: 'Hola mundo',
-    Nombres: 'Estefani Jeannielys',
-    Apellidos: 'Gonzalez Gonzalez',
-    CI: '32.057.736',
+    Nombres: 'Cristhian Alfonzo Angyalbert',
+    Apellidos: 'Padron Alvarez',
+    CI: '31.031.669',
     Seccion: '4'
   });
 });

@@ -1,3 +1,10 @@
+#galeria img {
+  max-width: 250px;
+  height: auto;
+  margin: 10px;
+  border-radius: 10px;
+}
+
 :root {
 --lime: #4CAF50;
 --white:#f9f9f9;

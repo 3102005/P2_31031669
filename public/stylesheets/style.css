@@ -1,0 +1,105 @@
+a {
+  color: #00B7FF;
+}
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+  background-color: #aea8a8;
+  color: #f7f8fa;
+
+  margin: 0; /* Eliminar márgenes por defecto */
+  height: 100vh; /* Altura completa de la ventana del navegador */
+  background-image: url('https://img.freepik.com/foto-gratis/viajar-nuevo-concepto-surtido-estilo-papel_23-2149064646.jpg?semt=ais_hybrid&w=740'); /* Reemplaza con la ruta de tu imagen */
+  background-size: cover; /* Asegura que la imagen cubra todo el body */
+  background-position: center; /* Centra la imagen */
+  /*background-repeat: no-repeat;  Evita que la imagen se repita */
+  color: white; /* Cambia el color del texto según sea necesario */
+}
+
+.card {
+  background-color: #131f3fcf;      /* Color de fondo del cuadro */
+  border-radius: 10px;          /* Esquinas redondeadas */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Sombreado */
+  padding: 20px;                /* Espaciado interno */
+  margin: 20px;                 /* Espaciado externo entre cuadros */
+  width: 100%;                 /* Ancho del cuadro */
+  max-width: 800px;
+  text-align: center;           /* Centra el texto dentro del cuadro */
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+header {
+  background: #131f3fcf;
+  color: #fff;
+  padding: 10px 0;
+  text-align: center;
+}
+
+nav ul {
+  list-style: none;
+  padding: 0;
+}
+
+nav ul li {
+  display: inline;
+  margin: 0 15px;
+}
+
+nav ul li a {
+  color: #fff;
+  text-decoration: none;
+}
+
+section {
+  padding: 20px;
+  margin: 20px;
+  flex-direction: column;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  height: auto;
+  text-align: center;
+}
+
+h2 {
+  color: #a5a8b6;
+}
+
+footer {
+  text-align: center;
+  padding: 10px 0;
+  background: #131f3fcf;
+  color: #fff;
+}
+
+@media (max-width: 768px) {
+  nav ul li {
+    display: block;
+    margin: 10px 0;
+  }
+
+  .card{
+    margin: 10px;
+  }
+
+  section{
+    height: auto;
+  }
+}
+
+.imagen {
+  width: 100%; /* Modifica este valor para el ancho deseado */
+  max-width: 330px;
+  height: auto; /* Modifica este valor para la altura deseada */
+  object-fit: cover; /* Asegura que la imagen se recorte adecuadamente */
+  margin: 10px; /* Espacio de separación entre las imágenes */
+}

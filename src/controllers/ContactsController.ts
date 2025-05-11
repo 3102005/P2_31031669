@@ -9,11 +9,7 @@ export class ContactsController {
             const { email, name, comment } = req.body;
             const ipAddress = req.ip || 'unknown';
 
-<<<<<<< HEAD
-            const result = await this.service.add(email, name, comment, ipAddress);
-=======
             const result = await this.service.add(email.trim(), name, comment, ipAddress);
->>>>>>> 037c066598ee083c243bf8c7b8dc1650df720ef6
             
             req.session.message = result.message;
             req.session.success = true;
@@ -34,7 +30,3 @@ export class ContactsController {
         }
     }
 }
-<<<<<<< HEAD
-
-=======
->>>>>>> 037c066598ee083c243bf8c7b8dc1650df720ef6

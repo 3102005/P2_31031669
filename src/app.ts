@@ -98,7 +98,3 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
 });
 
 export default app;
-<<<<<<< HEAD
-
-=======
->>>>>>> 037c066598ee083c243bf8c7b8dc1650df720ef6

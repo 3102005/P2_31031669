@@ -225,7 +225,7 @@ box-sizing: border-box;
 
 .alert-success {
 background-color: var(--backgroundGreen);
-color: var(--green)
+color: var(--green);
 border: 1px solid var(--borderGreen);
 }
 

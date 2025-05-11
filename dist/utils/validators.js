@@ -38,10 +38,6 @@ const validateExpiration = (month, year) => {
 };
 exports.validateExpiration = validateExpiration;
 const validateAmount = (amount) => {
-<<<<<<< HEAD
-    return amount > 0 && amount <= 1000000; // Ejemplo: máximo 1 millón
-=======
     return amount > 0 && amount <= 1000000;
->>>>>>> 037c066598ee083c243bf8c7b8dc1650df720ef6
 };
 exports.validateAmount = validateAmount;

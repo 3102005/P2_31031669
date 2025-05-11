@@ -49,11 +49,7 @@ export class PaymentService {
         return {
             success: true,
             transactionId: paymentResult.id,
-<<<<<<< HEAD
-            message: 'Pago exitoso'
-=======
             message: 'Pago realizado'
->>>>>>> 037c066598ee083c243bf8c7b8dc1650df720ef6
         };
     }
 
@@ -66,7 +62,3 @@ export class PaymentService {
         }
     }
 }
-<<<<<<< HEAD
-
-=======
->>>>>>> 037c066598ee083c243bf8c7b8dc1650df720ef6

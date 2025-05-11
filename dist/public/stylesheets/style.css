@@ -1,15 +1,3 @@
-/* Estilo General */
-.card {
-  background-color: #131f3fcf;      /* Color de fondo del cuadro */
-  border-radius: 10px;          /* Esquinas redondeadas */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Sombreado */
-  padding: 20px;                /* Espaciado interno */
-  margin: 20px;                 /* Espaciado externo entre cuadros */
-  width: 100%;                 /* Ancho del cuadro */
-  max-width: 800px;
-  text-align: center;           /* Centra el texto dentro del cuadro */
-} 
-
 :root {
 --lime: #4CAF50;
 --white:#f9f9f9;
@@ -24,20 +12,6 @@
 }
 
 body {
-   padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-  font-family: Arial, sans-serif;
-  line-height: 1.6;
-  margin: 0;
-  padding: 0;
-  background-color: #aea8a8;
-  color: #f7f8fa;
-
-  margin: 0; /* Eliminar márgenes por defecto */
-  height: 100vh; /* Altura completa de la ventana del navegador */
-  background-image: url('https://img.freepik.com/foto-gratis/viajar-nuevo-concepto-surtido-estilo-papel_23-2149064646.jpg?semt=ais_hybrid&w=740'); /* Reemplaza con la ruta de tu imagen */
-  background-size: cover; /* Asegura que la imagen cubra todo el body */
-  background-position: center; /* Centra la imagen */
   /*background-repeat: no-repeat;  Evita que la imagen se repita */
   color: white; /* Cambia el color del texto según sea necesario */
   font-family: Arial, sans-serif;

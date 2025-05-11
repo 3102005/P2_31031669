@@ -22,7 +22,3 @@ router.post('/contact/add', (req, res) => contactsController.add(req, res));
 router.post('/payment/add', (req, res) => paymentsController.add(req, res));
 
 export default router;
-<<<<<<< HEAD
-
-=======
->>>>>>> 037c066598ee083c243bf8c7b8dc1650df720ef6

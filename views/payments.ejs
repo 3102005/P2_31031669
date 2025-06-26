@@ -96,6 +96,38 @@
       overflow-x: auto;
     }
     
+    .search-box {
+      position: relative;
+      flex: 1;
+      max-width: 400px;
+      margin: 0 1rem;
+    }
+    
+    .search-box i {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #666;
+      z-index: 1;
+    }
+    
+    .search-box input {
+      width: 100%;
+      padding: 0.75rem 1rem 0.75rem 2.5rem;
+      border: 2px solid #e0e0e0;
+      border-radius: 25px;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+      background: white;
+    }
+    
+    .search-box input:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+    
     .table-header {
       display: flex;
       justify-content: space-between;
@@ -273,6 +305,10 @@
     <div class="payments-table-container">
       <div class="table-header">
         <h2>Historial de Pagos</h2>
+        <div class="search-box">
+          <i class="fas fa-search"></i>
+          <input type="text" id="searchInput" placeholder="Buscar pagos por email, servicio, monto...">
+        </div>
         <button class="refresh-btn" onclick="loadPayments()">
           <i class="fas fa-sync-alt"></i>
           Actualizar
@@ -290,6 +326,40 @@
   
   <script>
     let payments = [];
+    let allPayments = [];
+    
+    // Initialize search functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const searchInput = document.getElementById('searchInput');
+      if (searchInput) {
+        searchInput.addEventListener('input', function() {
+          const searchTerm = this.value.toLowerCase();
+          filterPayments(searchTerm);
+        });
+      }
+      loadPayments();
+    });
+    
+    function filterPayments(searchTerm) {
+      if (!searchTerm) {
+        displayPayments(allPayments);
+        updateStats(allPayments);
+        return;
+      }
+      
+      const filtered = allPayments.filter(payment => 
+        payment.email.toLowerCase().includes(searchTerm) ||
+        (payment.service && payment.service.toLowerCase().includes(searchTerm)) ||
+        payment.cardHolderName.toLowerCase().includes(searchTerm) ||
+        payment.amount.toString().includes(searchTerm) ||
+        payment.currency.toLowerCase().includes(searchTerm) ||
+        payment.status.toLowerCase().includes(searchTerm) ||
+        payment.id.toString().includes(searchTerm)
+      );
+      
+      displayPayments(filtered);
+      updateStats(filtered);
+    }
     
     async function loadPayments() {
       const contentDiv = document.getElementById('paymentsContent');
@@ -306,6 +376,7 @@
         
         if (data.success && data.payments) {
           payments = data.payments;
+          allPayments = data.payments;
           displayPayments(payments);
           updateStats(payments);
         } else {

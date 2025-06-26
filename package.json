@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./dist/bin/www.js",
+    "start": "ts-node ./src/bin/www.ts",
     "dev": "nodemon --exec ts-node ./src/bin/www.ts",
     "build": "tsc",
     "build:watch": "tsc --watch",
@@ -24,7 +24,7 @@
     "sqlite3": "^5.1.6"
   },
   "engines": {
-    "node": ">=18.18.0 <19.0.0"
+    "node": ">=20.0.0 <21.0.0"
   },
   "devDependencies": {
     "@types/cookie-parser": "^1.4.8",

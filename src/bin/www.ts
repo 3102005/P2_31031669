@@ -1,5 +1,8 @@
 #!/usr/bin/env node
 
+import dotenv from 'dotenv';
+dotenv.config();
+
 import app from '../app';
 import debugLib from 'debug';
 import http from 'http';
@@ -70,6 +73,24 @@ function onError(error: NodeJS.ErrnoException): void {
  */
 function onListening(): void {
   const addr = server.address();
-  const bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr?.port;
+  const bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + (addr as any)?.port;
+  
+  // Obtener el puerto de manera segura
+  const serverPort = typeof addr === 'string' ? addr : (addr as any)?.port || port;
+  
+  // Log detallado para el usuario
+  console.log('\n' + '='.repeat(60));
+  console.log('🐾 PATITAS MÓVILES - SERVIDOR INICIADO');
+  console.log('='.repeat(60));
+  console.log(`🚀 Servidor funcionando en: http://localhost:${serverPort}`);
+  console.log(`📱 Puerto: ${serverPort}`);
+  console.log(`🌐 Entorno: ${process.env.NODE_ENV || 'development'}`);
+  console.log(`📧 Email: info@patitasmoviles.com`);
+  console.log(`📞 Teléfono: +58 424-123-4567`);
+  console.log('='.repeat(60));
+  console.log('💡 Presiona Ctrl+C para detener el servidor');
+  console.log('='.repeat(60) + '\n');
+  
+  // Log original para debug
   debug('Listening on ' + bind);
 }

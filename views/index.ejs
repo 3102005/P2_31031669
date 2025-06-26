@@ -1,53 +1,894 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Patitas Móviles - Veterinaria a Domicilio</title>
-  <link rel="stylesheet" href="styles.css">
+  <title><%= title %></title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            'inter': ['Inter', 'sans-serif'],
+          },
+          colors: {
+            'vet-primary': '#667eea',
+            'vet-secondary': '#764ba2',
+            'vet-accent': '#f093fb',
+            'vet-pink': '#f5576c',
+          }
+        }
+      }
+    }
+  </script>
+  
+  <style>
+    /* Service Button Styles */
+    .service-btn {
+      margin-top: 1rem;
+      width: 100%;
+      padding: 0.75rem 1rem;
+      font-size: 0.9rem;
+      font-weight: 500;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+    
+    .service-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+    }
+    
+    /* Payment Modal Styles */
+    .payment-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 10000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+    
+    .modal-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(5px);
+    }
+    
+    .modal-content {
+      position: relative;
+      background: white;
+      border-radius: 15px;
+      max-width: 500px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      animation: modalSlideIn 0.3s ease-out;
+    }
+    
+    @keyframes modalSlideIn {
+      from {
+        opacity: 0;
+        transform: translateY(-30px) scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+    
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 2rem;
+      border-bottom: 2px solid #f0f0f0;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      border-radius: 15px 15px 0 0;
+    }
+    
+    .modal-header h3 {
+      margin: 0;
+      font-size: 1.3rem;
+      font-weight: 600;
+    }
+    
+    .modal-close {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.2rem;
+      cursor: pointer;
+      padding: 0.5rem;
+      border-radius: 50%;
+      transition: all 0.3s ease;
+      width: 35px;
+      height: 35px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .modal-close:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: rotate(90deg);
+    }
+    
+    .modal-body {
+      padding: 2rem;
+    }
+    
+    .service-info {
+      background: linear-gradient(135deg, #f093fb, #f5576c);
+      color: white;
+      padding: 1.5rem;
+      border-radius: 10px;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+    
+    .service-info h4 {
+      margin: 0 0 0.5rem 0;
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+    
+    .service-amount {
+      margin: 0;
+      font-size: 1.1rem;
+      opacity: 0.9;
+    }
+    
+    .modal-actions {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+    
+    .modal-actions .btn {
+      flex: 1;
+      padding: 0.75rem 1rem;
+      font-weight: 500;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+    
+    .btn-secondary {
+      background: #6c757d;
+      color: white;
+      border: none;
+    }
+    
+    .btn-secondary:hover {
+      background: #5a6268;
+      transform: translateY(-2px);
+    }
+    
+    /* Responsive Modal */
+    @media (max-width: 768px) {
+      .modal-content {
+        margin: 1rem;
+        max-width: none;
+      }
+      
+      .modal-header,
+      .modal-body {
+        padding: 1.5rem;
+      }
+      
+      .modal-actions {
+        flex-direction: column;
+      }
+    }
+    
+    /* Form Styles for Modal */
+    .payment-form .form-group {
+      margin-bottom: 1.5rem;
+    }
+    
+    .payment-form label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: #333;
+    }
+    
+    .payment-form input,
+    .payment-form select {
+      width: 100%;
+      padding: 0.75rem;
+      border: 2px solid #e1e5e9;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      background: white;
+    }
+    
+    .payment-form input:focus,
+    .payment-form select:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+    
+    .payment-form .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1rem;
+    }
+    
+    .payment-form .error-message {
+      color: #dc3545;
+      font-size: 0.85rem;
+      margin-top: 0.25rem;
+      display: none;
+    }
+    
+    .payment-form .form-group.error input,
+    .payment-form .form-group.error select {
+      border-color: #dc3545;
+    }
+    
+    .payment-security {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 1rem;
+      background: #f8f9fa;
+      border-radius: 8px;
+      margin: 1.5rem 0;
+      color: #666;
+      font-size: 0.9rem;
+    }
+    
+    .payment-security i {
+      color: #28a745;
+    }
+    
+    .response-message {
+      padding: 1rem;
+      border-radius: 8px;
+      margin-top: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .response-message.success {
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+    
+    .response-message.error {
+      background: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+    
+    .loading-spinner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .btn-text {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+  </style>
+  
+  <!-- Google Analytics -->
+  <% if (googleAnalyticsId) { %>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=<%= googleAnalyticsId %>"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', '<%= googleAnalyticsId %>');
+  </script>
+  <% } %>
+  
+  <!-- Google reCAPTCHA -->
+  <% if (recaptchaSiteKey) { %>
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+  <% } %>
+  
+  <!-- Custom JavaScript Files -->
+  <script src="/js/main.js"></script>
+  <script src="/js/contact.js"></script>
+  <script src="/js/payment.js"></script>
 </head>
-
 <body>
-  <header>
-    <h1>Patitas Móviles</h1>
-    <p>Cuidamos de tu mascota donde más feliz se siente: en casa.</p>
-  </header>
+  <!-- Navigation -->
+  <nav class="bg-white shadow-lg fixed w-full top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16">
+        <div class="flex items-center space-x-2 text-vet-primary font-bold text-xl">
+          <i class="fas fa-paw text-2xl"></i>
+          <span>Patitas Móviles</span>
+        </div>
+        <ul class="hidden md:flex space-x-8">
+          <li><a href="#inicio" class="text-gray-700 hover:text-vet-primary transition-colors duration-300 font-medium">Inicio</a></li>
+                        <li><a href="#servicios" class="text-gray-700 hover:text-vet-primary transition-colors duration-300 font-medium">Servicios</a></li>
+                        <li><a href="#galeria" class="text-gray-700 hover:text-vet-primary transition-colors duration-300 font-medium">Galería</a></li>
+                        <li><a href="#nosotros" class="text-gray-700 hover:text-vet-primary transition-colors duration-300 font-medium">Nosotros</a></li>
+          <li><a href="/admin" class="text-gray-700 hover:text-vet-primary transition-colors duration-300 font-medium">Admin</a></li>
+          <li><a href="#cita" class="bg-gradient-to-r from-vet-primary to-vet-secondary text-white px-4 py-2 rounded-lg hover:shadow-lg transition-all duration-300 font-medium">Agendar Cita</a></li>
+        </ul>
+        <div class="md:hidden flex flex-col space-y-1 cursor-pointer" id="hamburger">
+          <span class="w-6 h-0.5 bg-gray-700 transition-all duration-300"></span>
+          <span class="w-6 h-0.5 bg-gray-700 transition-all duration-300"></span>
+          <span class="w-6 h-0.5 bg-gray-700 transition-all duration-300"></span>
+        </div>
+      </div>
+    </div>
+  </nav>
 
-  <section class="descripcion">
-    <h2>¿Qué es Patitas Móviles?</h2>
-    <p>Patitas Móviles es un servicio veterinario a domicilio que ofrece atención profesional para tus mascotas sin que tengas que salir de casa. Ideal para animales nerviosos o personas con movilidad limitada.</p>
+  <!-- Hero Section -->
+  <section id="inicio" class="bg-gradient-to-br from-blue-50 to-purple-50 min-h-screen flex items-center pt-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid lg:grid-cols-2 gap-12 items-center">
+        <div class="space-y-8">
+          <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
+            Cuidado veterinario
+            <span class="bg-gradient-to-r from-vet-primary to-vet-secondary bg-clip-text text-transparent">en la comodidad de tu hogar</span>
+          </h1>
+          <p class="text-xl text-gray-600 leading-relaxed">
+            Brindamos atención médica profesional para tus mascotas sin el estrés del traslado.
+            Tu compañero peludo se sentirá seguro y cómodo en casa.
+          </p>
+          <div class="flex flex-col sm:flex-row gap-4">
+            <a href="#cita" class="bg-gradient-to-r from-vet-primary to-vet-secondary text-white px-8 py-4 rounded-xl font-semibold hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 flex items-center justify-center space-x-2">
+              <i class="fas fa-calendar-plus"></i>
+              <span>Agendar Consulta</span>
+            </a>
+            <a href="#servicios" class="border-2 border-vet-primary text-vet-primary px-8 py-4 rounded-xl font-semibold hover:bg-vet-primary hover:text-white transition-all duration-300 flex items-center justify-center space-x-2">
+              <i class="fas fa-info-circle"></i>
+              <span>Ver Servicios</span>
+            </a>
+          </div>
+        </div>
+        <div class="relative">
+          <div class="relative">
+            <img src="https://images.unsplash.com/photo-1601758228041-f3b2795255f1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Veterinario cuidando mascota" class="rounded-2xl shadow-2xl w-full">
+            <div class="absolute -bottom-6 -left-6 bg-white rounded-xl shadow-lg p-4 flex items-center space-x-3">
+              <div class="bg-green-100 p-2 rounded-lg">
+                <i class="fas fa-shield-alt text-green-600"></i>
+              </div>
+              <span class="font-semibold text-gray-800">Cuidado profesional</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </section>
 
-  <section class="beneficios">
-    <h2>Beneficios del Servicio</h2>
-    <ul>
-      <li>Evita el estrés de los traslados.</li>
-      <li>Atención personalizada y cómoda.</li>
-      <li>Ideal para mascotas mayores o convalecientes.</li>
-      <li>Flexibilidad de horarios.</li>
-    </ul>
+  <!-- Services Section -->
+  <section id="servicios" class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <h2 class="text-4xl font-bold text-gray-900 mb-4">Nuestros Servicios</h2>
+        <p class="text-xl text-gray-600">Atención integral para el bienestar de tu mascota</p>
+      </div>
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div class="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 p-8 border border-gray-100 group hover:-translate-y-2">
+          <div class="bg-gradient-to-br from-vet-primary to-vet-secondary w-16 h-16 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+            <i class="fas fa-stethoscope text-white text-2xl"></i>
+          </div>
+          <h3 class="text-xl font-bold text-gray-900 mb-4">Consulta General</h3>
+          <p class="text-gray-600 mb-6">Examen completo de salud, diagnóstico y tratamiento básico en la comodidad de tu hogar.</p>
+          <div class="text-2xl font-bold text-vet-primary mb-6">Desde $25</div>
+          <button class="w-full bg-gradient-to-r from-vet-primary to-vet-secondary text-white py-3 px-6 rounded-xl font-semibold hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300 flex items-center justify-center space-x-2" onclick="openPaymentModal('Consulta General', 25)">
+            <i class="fas fa-calendar-check"></i>
+            <span>Solicitar Servicio</span>
+          </button>
+        </div>
+        <div class="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 p-8 border border-gray-100 group hover:-translate-y-2">
+          <div class="bg-gradient-to-br from-green-500 to-emerald-600 w-16 h-16 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+            <i class="fas fa-syringe text-white text-2xl"></i>
+          </div>
+          <h3 class="text-xl font-bold text-gray-900 mb-4">Vacunación</h3>
+          <p class="text-gray-600 mb-6">Programa completo de vacunas para mantener a tu mascota protegida contra enfermedades.</p>
+          <div class="text-2xl font-bold text-green-600 mb-6">Desde $15</div>
+          <button class="w-full bg-gradient-to-r from-green-500 to-emerald-600 text-white py-3 px-6 rounded-xl font-semibold hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300 flex items-center justify-center space-x-2" onclick="openPaymentModal('Vacunación', 15)">
+            <i class="fas fa-calendar-check"></i>
+            <span>Solicitar Servicio</span>
+          </button>
+        </div>
+        <div class="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 p-8 border border-gray-100 group hover:-translate-y-2">
+          <div class="bg-gradient-to-br from-pink-500 to-rose-600 w-16 h-16 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+            <i class="fas fa-cut text-white text-2xl"></i>
+          </div>
+          <h3 class="text-xl font-bold text-gray-900 mb-4">Grooming</h3>
+          <p class="text-gray-600 mb-6">Servicio de aseo y cuidado estético para que tu mascota luzca y se sienta mejor.</p>
+          <div class="text-2xl font-bold text-pink-600 mb-6">Desde $20</div>
+          <button class="w-full bg-gradient-to-r from-pink-500 to-rose-600 text-white py-3 px-6 rounded-xl font-semibold hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300 flex items-center justify-center space-x-2" onclick="openPaymentModal('Grooming', 20)">
+            <i class="fas fa-calendar-check"></i>
+            <span>Solicitar Servicio</span>
+          </button>
+        </div>
+        <div class="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 p-8 border border-gray-100 group hover:-translate-y-2">
+          <div class="bg-gradient-to-br from-orange-500 to-amber-600 w-16 h-16 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+            <i class="fas fa-pills text-white text-2xl"></i>
+          </div>
+          <h3 class="text-xl font-bold text-gray-900 mb-4">Tratamientos</h3>
+          <p class="text-gray-600 mb-6">Administración de medicamentos y seguimiento de tratamientos médicos especializados.</p>
+          <div class="text-2xl font-bold text-orange-600 mb-6">Desde $30</div>
+          <button class="w-full bg-gradient-to-r from-orange-500 to-amber-600 text-white py-3 px-6 rounded-xl font-semibold hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300 flex items-center justify-center space-x-2" onclick="openPaymentModal('Tratamientos', 30)">
+            <i class="fas fa-calendar-check"></i>
+            <span>Solicitar Servicio</span>
+          </button>
+        </div>
+      </div>
+    </div>
   </section>
 
-  <section class="galeria">
-    <h2>Nuestros Amigos Peludos</h2>
-    <img src="https://via.placeholder.com/300x200" alt="Mascota feliz 1">
-    <img src="https://via.placeholder.com/300x200" alt="Mascota feliz 2">
-    <img src="https://via.placeholder.com/300x200" alt="Mascota feliz 3">
+  <!-- Payment Modal -->
+  <div id="paymentModal" class="fixed inset-0 z-50 flex items-center justify-center p-4" style="display: none;">
+    <div class="absolute inset-0 bg-black bg-opacity-70 backdrop-blur-sm" onclick="closePaymentModal()"></div>
+    <div class="relative bg-white rounded-2xl shadow-2xl max-w-md w-full max-h-[90vh] overflow-y-auto transform transition-all duration-300">
+      <div class="bg-gradient-to-r from-vet-primary to-vet-secondary text-white p-6 rounded-t-2xl">
+        <div class="flex justify-between items-center">
+          <h3 class="text-xl font-bold flex items-center space-x-2">
+            <i class="fas fa-credit-card"></i>
+            <span>Procesar Pago</span>
+          </h3>
+          <button class="text-white hover:bg-white hover:bg-opacity-20 p-2 rounded-full transition-all duration-300" onclick="closePaymentModal()">
+            <i class="fas fa-times text-lg"></i>
+          </button>
+        </div>
+      </div>
+      <div class="p-6">
+        <div class="bg-gradient-to-r from-vet-accent to-vet-pink text-white p-4 rounded-xl mb-6 text-center">
+          <h4 id="modalServiceName" class="text-lg font-semibold mb-2">Servicio Seleccionado</h4>
+          <p class="text-lg">Monto: <span id="modalServiceAmount" class="font-bold">$0</span></p>
+        </div>
+        
+        <!-- Test Data Button -->
+        <div class="mb-4">
+          <button type="button" id="fillTestDataBtn" class="w-full bg-gradient-to-r from-blue-500 to-indigo-600 text-white py-2 px-4 rounded-lg hover:shadow-lg transition-all duration-300 font-medium flex items-center justify-center space-x-2">
+            <i class="fas fa-flask"></i>
+            <span>Rellenar con Datos de Prueba</span>
+          </button>
+          <div id="testDataInfo" class="mt-2 p-3 bg-blue-50 rounded-lg text-sm text-blue-800" style="display: none;">
+            <p class="font-semibold mb-2">Tarjetas de Prueba Disponibles:</p>
+            <ul class="space-y-1 text-xs">
+              <li><strong>Visa:</strong> 4111111111111111</li>
+              <li><strong>Mastercard:</strong> 5555555555554444</li>
+              <li><strong>American Express:</strong> 378282246310005</li>
+              <li><strong>Discover:</strong> 6011111111111117</li>
+              <li><strong>JCB:</strong> 3530111333300000</li>
+              <li><strong>Diners Club:</strong> 30569309025904</li>
+            </ul>
+          </div>
+        </div>
+        
+        <form id="modalPaymentForm" class="space-y-4">
+          <input type="hidden" id="modalService" name="service">
+          <input type="hidden" id="modalAmount" name="amount">
+          
+          <div>
+            <label for="modalCurrency" class="block text-sm font-medium text-gray-700 mb-2">Moneda *</label>
+            <select id="modalCurrency" name="currency" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-vet-primary focus:border-transparent transition-all duration-300">
+              <option value="USD">USD - Dólar Estadounidense</option>
+              <option value="EUR">EUR - Euro</option>
+              <option value="VES">VES - Bolívar Venezolano</option>
+            </select>
+            <span class="text-red-500 text-sm mt-1 hidden"></span>
+          </div>
+          
+          <div>
+            <label for="modalEmail" class="block text-sm font-medium text-gray-700 mb-2">Email *</label>
+            <input type="email" id="modalEmail" name="email" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-vet-primary focus:border-transparent transition-all duration-300">
+            <span class="text-red-500 text-sm mt-1 hidden"></span>
+          </div>
+          
+          <div>
+            <label for="modalCardHolderName" class="block text-sm font-medium text-gray-700 mb-2">Nombre del Titular *</label>
+            <input type="text" id="modalCardHolderName" name="cardHolderName" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-vet-primary focus:border-transparent transition-all duration-300">
+            <span class="text-red-500 text-sm mt-1 hidden"></span>
+          </div>
+          
+          <div>
+            <label for="modalCardNumber" class="block text-sm font-medium text-gray-700 mb-2">Número de Tarjeta *</label>
+            <input type="text" id="modalCardNumber" name="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-vet-primary focus:border-transparent transition-all duration-300">
+            <span class="text-red-500 text-sm mt-1 hidden"></span>
+          </div>
+          
+          <div class="grid grid-cols-3 gap-4">
+            <div>
+              <label for="modalExpirationMonth" class="block text-sm font-medium text-gray-700 mb-2">Mes *</label>
+              <select id="modalExpirationMonth" name="expirationMonth" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-vet-primary focus:border-transparent transition-all duration-300">
+                <option value="">Mes</option>
+                <option value="01">01</option>
+                <option value="02">02</option>
+                <option value="03">03</option>
+                <option value="04">04</option>
+                <option value="05">05</option>
+                <option value="06">06</option>
+                <option value="07">07</option>
+                <option value="08">08</option>
+                <option value="09">09</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+              </select>
+              <span class="text-red-500 text-sm mt-1 hidden"></span>
+            </div>
+            <div>
+              <label for="modalExpirationYear" class="block text-sm font-medium text-gray-700 mb-2">Año *</label>
+              <select id="modalExpirationYear" name="expirationYear" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-vet-primary focus:border-transparent transition-all duration-300">
+                <option value="">Año</option>
+              </select>
+              <span class="text-red-500 text-sm mt-1 hidden"></span>
+            </div>
+            <div>
+              <label for="modalCvv" class="block text-sm font-medium text-gray-700 mb-2">CVV *</label>
+              <input type="text" id="modalCvv" name="cvv" placeholder="123" maxlength="4" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-vet-primary focus:border-transparent transition-all duration-300">
+              <span class="text-red-500 text-sm mt-1 hidden"></span>
+            </div>
+          </div>
+          
+          <div class="bg-gray-50 p-4 rounded-lg flex items-center space-x-3">
+            <div class="bg-green-100 p-2 rounded-lg">
+              <i class="fas fa-shield-alt text-green-600"></i>
+            </div>
+            <span class="text-sm text-gray-600">Tus datos están protegidos con encriptación SSL de 256 bits</span>
+          </div>
+          
+          <div class="flex space-x-4 pt-4">
+            <button type="button" class="flex-1 px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-all duration-300 font-medium" onclick="closePaymentModal()">
+              Cancelar
+            </button>
+            <button type="submit" class="flex-1 bg-gradient-to-r from-vet-primary to-vet-secondary text-white px-6 py-3 rounded-lg hover:shadow-lg transition-all duration-300 font-medium" id="modalPaymentSubmitBtn">
+              <span class="flex items-center justify-center space-x-2">
+                <i class="fas fa-credit-card"></i>
+                <span>Procesar Pago</span>
+              </span>
+              <div class="hidden items-center justify-center">
+                <i class="fas fa-spinner fa-spin"></i>
+              </div>
+            </button>
+          </div>
+        </form>
+        
+        <div id="modalPaymentResponse" class="mt-4" style="display: none;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- About Section -->
+  <section id="nosotros" class="py-20 bg-gradient-to-br from-gray-50 to-blue-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid lg:grid-cols-2 gap-16 items-center">
+        <div class="space-y-8">
+          <h2 class="text-4xl font-bold text-gray-900 mb-6">¿Por qué elegir Patitas Móviles?</h2>
+          <p class="text-xl text-gray-600 leading-relaxed">
+            Somos un equipo de veterinarios especializados en atención domiciliaria, 
+            comprometidos con el bienestar de tu mascota y tu tranquilidad.
+          </p>
+          <div class="space-y-6">
+            <div class="flex items-start space-x-4">
+              <div class="bg-blue-100 p-3 rounded-lg">
+                <i class="fas fa-home text-blue-600 text-xl"></i>
+              </div>
+              <div>
+                <h4 class="text-lg font-semibold text-gray-900 mb-2">Comodidad total</h4>
+                <p class="text-gray-600">Tu mascota se mantiene en su ambiente familiar</p>
+              </div>
+            </div>
+            <div class="flex items-start space-x-4">
+              <div class="bg-green-100 p-3 rounded-lg">
+                <i class="fas fa-clock text-green-600 text-xl"></i>
+              </div>
+              <div>
+                <h4 class="text-lg font-semibold text-gray-900 mb-2">Horarios flexibles</h4>
+                <p class="text-gray-600">Nos adaptamos a tu disponibilidad</p>
+              </div>
+            </div>
+            <div class="flex items-start space-x-4">
+              <div class="bg-purple-100 p-3 rounded-lg">
+                <i class="fas fa-shield-alt text-purple-600 text-xl"></i>
+              </div>
+              <div>
+                <h4 class="text-lg font-semibold text-gray-900 mb-2">Menos estrés</h4>
+                <p class="text-gray-600">Evitamos el trauma del transporte</p>
+              </div>
+            </div>
+            <div class="flex items-start space-x-4">
+              <div class="bg-orange-100 p-3 rounded-lg">
+                <i class="fas fa-user-md text-orange-600 text-xl"></i>
+              </div>
+              <div>
+                <h4 class="text-lg font-semibold text-gray-900 mb-2">Profesionales certificados</h4>
+                <p class="text-gray-600">Veterinarios con amplia experiencia</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-6">
+          <div class="bg-white p-6 rounded-2xl shadow-lg text-center hover:shadow-xl transition-all duration-300">
+            <div class="text-4xl font-bold text-vet-primary mb-2">500+</div>
+            <div class="text-gray-600 font-medium">Mascotas atendidas</div>
+          </div>
+          <div class="bg-white p-6 rounded-2xl shadow-lg text-center hover:shadow-xl transition-all duration-300">
+            <div class="text-4xl font-bold text-green-600 mb-2">5</div>
+            <div class="text-gray-600 font-medium">Años de experiencia</div>
+          </div>
+          <div class="bg-white p-6 rounded-2xl shadow-lg text-center hover:shadow-xl transition-all duration-300">
+            <div class="text-4xl font-bold text-orange-600 mb-2">24/7</div>
+            <div class="text-gray-600 font-medium">Emergencias</div>
+          </div>
+          <div class="bg-white p-6 rounded-2xl shadow-lg text-center hover:shadow-xl transition-all duration-300">
+            <div class="text-4xl font-bold text-pink-600 mb-2">98%</div>
+            <div class="text-gray-600 font-medium">Satisfacción</div>
+          </div>
+        </div>
+      </div>
+    </div>
   </section>
 
-  <section class="redes">
-    <h2>¡Síguenos!</h2>
-    <ul>
-      <li><a href="#">Facebook</a></li>
-      <li><a href="#">Instagram</a></li>
-      <li><a href="#">WhatsApp</a></li>
-    </ul>
+  <!-- Gallery Section -->
+   <section id="galeria" class="py-20 bg-white">
+     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+       <div class="text-center mb-16">
+         <h2 class="text-4xl font-bold text-gray-900 mb-4">Nuestros Pacientes Felices</h2>
+         <p class="text-xl text-gray-600">Conoce a algunas de las mascotas que hemos cuidado con amor</p>
+       </div>
+       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+         <div class="group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300">
+           <img src="https://images.unsplash.com/photo-1583337130417-3346a1be7dee?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Perro golden retriever feliz" class="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-300">
+           <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+             <div class="absolute bottom-4 left-4 text-white">
+               <h4 class="text-lg font-bold">Max</h4>
+               <p class="text-sm opacity-90">Golden Retriever</p>
+             </div>
+           </div>
+         </div>
+         <div class="group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300">
+           <img src="https://images.unsplash.com/photo-1574158622682-e40e69881006?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Gato persa descansando" class="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-300">
+           <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+             <div class="absolute bottom-4 left-4 text-white">
+               <h4 class="text-lg font-bold">Luna</h4>
+               <p class="text-sm opacity-90">Gato Persa</p>
+             </div>
+           </div>
+         </div>
+         <div class="group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300">
+           <img src="https://images.unsplash.com/photo-1552053831-71594a27632d?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Perro beagle jugando" class="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-300">
+           <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+             <div class="absolute bottom-4 left-4 text-white">
+               <h4 class="text-lg font-bold">Rocky</h4>
+               <p class="text-sm opacity-90">Beagle</p>
+             </div>
+           </div>
+         </div>
+         <div class="group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300">
+           <img src="https://images.unsplash.com/photo-1596854407944-bf87f6fdd49e?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Gato atigrado curioso" class="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-300">
+           <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+             <div class="absolute bottom-4 left-4 text-white">
+               <h4 class="text-lg font-bold">Mimi</h4>
+               <p class="text-sm opacity-90">Gato Atigrado</p>
+             </div>
+           </div>
+         </div>
+         <div class="group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300">
+           <img src="https://images.unsplash.com/photo-1587300003388-59208cc962cb?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Perro labrador chocolate" class="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-300">
+           <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+             <div class="absolute bottom-4 left-4 text-white">
+               <h4 class="text-lg font-bold">Bruno</h4>
+               <p class="text-sm opacity-90">Labrador</p>
+             </div>
+           </div>
+         </div>
+         <div class="group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300">
+           <img src="https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Gato siamés elegante" class="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-300">
+           <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+             <div class="absolute bottom-4 left-4 text-white">
+               <h4 class="text-lg font-bold">Simba</h4>
+               <p class="text-sm opacity-90">Siamés</p>
+             </div>
+           </div>
+         </div>
+       </div>
+     </div>
+   </section>
+
+   <!-- Contact Section -->
+  <section id="contacto" class="py-20 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <h2 class="text-4xl font-bold text-gray-900 mb-4">¿Listo para cuidar a tu mascota?</h2>
+        <p class="text-xl text-gray-600">Contáctanos y agenda tu cita hoy mismo</p>
+      </div>
+      <div class="grid lg:grid-cols-2 gap-12">
+        <div class="space-y-8">
+          <div class="bg-white rounded-2xl p-8 shadow-lg">
+            <div class="space-y-6">
+              <div class="flex items-start space-x-4">
+                <div class="flex-shrink-0">
+                  <div class="w-12 h-12 bg-vet-primary rounded-full flex items-center justify-center">
+                    <i class="fas fa-phone text-white"></i>
+                  </div>
+                </div>
+                <div>
+                  <h4 class="text-lg font-semibold text-gray-900 mb-1">Teléfono</h4>
+                  <p class="text-gray-600">+58 424-123-4567</p>
+                </div>
+              </div>
+              <div class="flex items-start space-x-4">
+                <div class="flex-shrink-0">
+                  <div class="w-12 h-12 bg-vet-primary rounded-full flex items-center justify-center">
+                    <i class="fas fa-envelope text-white"></i>
+                  </div>
+                </div>
+                <div>
+                  <h4 class="text-lg font-semibold text-gray-900 mb-1">Email</h4>
+                  <p class="text-gray-600">info@patitasmoviles.com</p>
+                </div>
+              </div>
+              <div class="flex items-start space-x-4">
+                <div class="flex-shrink-0">
+                  <div class="w-12 h-12 bg-vet-primary rounded-full flex items-center justify-center">
+                    <i class="fas fa-map-marker-alt text-white"></i>
+                  </div>
+                </div>
+                <div>
+                  <h4 class="text-lg font-semibold text-gray-900 mb-1">Cobertura</h4>
+                  <p class="text-gray-600">Caracas y área metropolitana</p>
+                </div>
+              </div>
+              <div class="flex items-start space-x-4">
+                <div class="flex-shrink-0">
+                  <div class="w-12 h-12 bg-vet-primary rounded-full flex items-center justify-center">
+                    <i class="fas fa-clock text-white"></i>
+                  </div>
+                </div>
+                <div>
+                  <h4 class="text-lg font-semibold text-gray-900 mb-1">Horarios</h4>
+                  <p class="text-gray-600">Lun - Dom: 8:00 AM - 8:00 PM</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Formulario de Contacto -->
+        <div class="bg-white rounded-2xl p-8 shadow-lg">
+          <div class="mb-6">
+            <h3 class="text-2xl font-bold text-gray-900 mb-2 flex items-center">
+              <i class="fas fa-paper-plane text-vet-primary mr-3"></i> 
+              Envíanos un mensaje
+            </h3>
+            <p class="text-gray-600">Completa el formulario y nos pondremos en contacto contigo</p>
+          </div>
+          
+          <form id="contactForm" class="space-y-6">
+            <div>
+              <label for="nombre" class="block text-sm font-medium text-gray-700 mb-2">Nombre completo *</label>
+              <input type="text" id="nombre" name="nombre" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-vet-primary focus:border-transparent transition-colors">
+              <span class="text-red-500 text-sm mt-1 hidden" id="nombre-error"></span>
+            </div>
+            
+            <div>
+              <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Correo electrónico *</label>
+              <input type="email" id="email" name="email" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-vet-primary focus:border-transparent transition-colors">
+              <span class="text-red-500 text-sm mt-1 hidden" id="email-error"></span>
+            </div>
+            
+            <div>
+              <label for="telefono" class="block text-sm font-medium text-gray-700 mb-2">Teléfono (opcional)</label>
+              <input type="tel" id="telefono" name="telefono" placeholder="+58 424-123-4567" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-vet-primary focus:border-transparent transition-colors">
+              <span class="text-red-500 text-sm mt-1 hidden" id="telefono-error"></span>
+            </div>
+            
+            <div>
+              <label for="mensaje" class="block text-sm font-medium text-gray-700 mb-2">Mensaje *</label>
+              <textarea id="mensaje" name="mensaje" rows="4" required placeholder="Cuéntanos sobre tu mascota y qué servicio necesitas..." class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-vet-primary focus:border-transparent transition-colors resize-none"></textarea>
+              <span class="text-red-500 text-sm mt-1 hidden" id="mensaje-error"></span>
+            </div>
+            
+            <!-- reCAPTCHA -->
+            <% if (recaptchaSiteKey) { %>
+            <div>
+              <div class="g-recaptcha" data-sitekey="<%= recaptchaSiteKey %>"></div>
+              <span class="text-red-500 text-sm mt-1 hidden" id="recaptcha-error"></span>
+            </div>
+            <% } %>
+            
+            <div>
+              <button type="submit" class="w-full bg-vet-primary hover:bg-vet-secondary text-white font-semibold py-4 px-6 rounded-lg transition-all duration-300 flex items-center justify-center space-x-2 group" id="submitBtn">
+                <i class="fas fa-paper-plane group-hover:translate-x-1 transition-transform"></i>
+                <span>Enviar mensaje</span>
+                <div class="loading-spinner hidden">
+                  <i class="fas fa-spinner fa-spin"></i>
+                </div>
+              </button>
+            </div>
+          </form>
+          
+          <!-- Mensajes de respuesta -->
+          <div id="responseMessage" class="mt-6 p-4 rounded-lg hidden"></div>
+        </div>
+      </div>
+    </div>
   </section>
 
-  <footer>
-    <p>© 2025 Patitas Móviles. Todos los derechos reservados.</p>
+  <!-- Footer -->
+  <footer class="bg-gray-900 text-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div class="lg:col-span-2">
+          <div class="flex items-center mb-4">
+            <i class="fas fa-paw text-vet-primary text-2xl mr-3"></i>
+            <span class="text-2xl font-bold">Patitas Móviles</span>
+          </div>
+          <p class="text-gray-300 mb-6 max-w-md">Cuidando a tu mascota con amor y profesionalismo desde la comodidad de tu hogar.</p>
+          <div class="flex space-x-4">
+            <a href="#" aria-label="Facebook" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-vet-primary transition-colors">
+              <i class="fab fa-facebook"></i>
+            </a>
+            <a href="#" aria-label="Instagram" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-vet-primary transition-colors">
+              <i class="fab fa-instagram"></i>
+            </a>
+            <a href="#" aria-label="WhatsApp" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-vet-primary transition-colors">
+              <i class="fab fa-whatsapp"></i>
+            </a>
+            <a href="#" aria-label="Twitter" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-vet-primary transition-colors">
+              <i class="fab fa-twitter"></i>
+            </a>
+          </div>
+        </div>
+        <div>
+          <h4 class="text-lg font-semibold mb-4">Servicios</h4>
+          <ul class="space-y-2">
+            <li><a href="#" class="text-gray-300 hover:text-vet-primary transition-colors">Consulta General</a></li>
+            <li><a href="#" class="text-gray-300 hover:text-vet-primary transition-colors">Vacunación</a></li>
+            <li><a href="#" class="text-gray-300 hover:text-vet-primary transition-colors">Grooming</a></li>
+            <li><a href="#" class="text-gray-300 hover:text-vet-primary transition-colors">Emergencias</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-lg font-semibold mb-4">Información</h4>
+          <ul class="space-y-2">
+            <li><a href="#" class="text-gray-300 hover:text-vet-primary transition-colors">Sobre Nosotros</a></li>
+            <li><a href="#" class="text-gray-300 hover:text-vet-primary transition-colors">Preguntas Frecuentes</a></li>
+            <li><a href="#" class="text-gray-300 hover:text-vet-primary transition-colors">Términos y Condiciones</a></li>
+            <li><a href="#" class="text-gray-300 hover:text-vet-primary transition-colors">Política de Privacidad</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="border-t border-gray-800 mt-12 pt-8 text-center">
+        <p class="text-gray-400">&copy; 2025 Patitas Móviles. Todos los derechos reservados.</p>
+      </div>
+    </div>
   </footer>
-</body>
 
+
+
+
+
+
+
+
+
+
+
+</script>
+</body>
 </html>

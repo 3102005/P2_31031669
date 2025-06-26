@@ -4,6 +4,26 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><%= title %></title>
+  
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="<%= title %>">
+  <meta property="og:description" content="Servicios veterinarios profesionales a domicilio. Cuidamos la salud de tus mascotas con atención personalizada en la comodidad de tu hogar.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="<%= typeof url !== 'undefined' ? url : 'https://patitas-moviles.com' %>">
+  <meta property="og:image" content="<%= typeof ogImage !== 'undefined' ? ogImage : 'https://patitas-moviles.com/images/og-image.jpg' %>">
+  <meta property="og:site_name" content="Patitas Móviles">
+  <meta property="og:locale" content="es_ES">
+  
+  <!-- Twitter Card Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="<%= title %>">
+  <meta name="twitter:description" content="Servicios veterinarios profesionales a domicilio. Cuidamos la salud de tus mascotas con atención personalizada.">
+  <meta name="twitter:image" content="<%= typeof ogImage !== 'undefined' ? ogImage : 'https://patitas-moviles.com/images/og-image.jpg' %>">
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Servicios veterinarios profesionales a domicilio. Consultas, vacunación, emergencias y más. Atención personalizada para tus mascotas.">
+  <meta name="keywords" content="veterinario, domicilio, mascotas, consultas, vacunación, emergencias, cuidado animal">
+  <meta name="author" content="Patitas Móviles">
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -324,10 +344,15 @@
         </div>
         <ul class="hidden md:flex space-x-8">
           <li><a href="#inicio" class="text-gray-700 hover:text-vet-primary transition-colors duration-300 font-medium">Inicio</a></li>
-                        <li><a href="#servicios" class="text-gray-700 hover:text-vet-primary transition-colors duration-300 font-medium">Servicios</a></li>
-                        <li><a href="#galeria" class="text-gray-700 hover:text-vet-primary transition-colors duration-300 font-medium">Galería</a></li>
-                        <li><a href="#nosotros" class="text-gray-700 hover:text-vet-primary transition-colors duration-300 font-medium">Nosotros</a></li>
-          <li><a href="/admin" class="text-gray-700 hover:text-vet-primary transition-colors duration-300 font-medium">Admin</a></li>
+          <li><a href="#servicios" class="text-gray-700 hover:text-vet-primary transition-colors duration-300 font-medium">Servicios</a></li>
+          <li><a href="#galeria" class="text-gray-700 hover:text-vet-primary transition-colors duration-300 font-medium">Galería</a></li>
+          <li><a href="#nosotros" class="text-gray-700 hover:text-vet-primary transition-colors duration-300 font-medium">Nosotros</a></li>
+          <% if (isAuthenticated) { %>
+            <li><a href="/admin" class="text-gray-700 hover:text-vet-primary transition-colors duration-300 font-medium">Admin</a></li>
+            <li><a href="/auth/logout" class="text-red-600 hover:text-red-700 transition-colors duration-300 font-medium">Cerrar Sesión</a></li>
+          <% } else { %>
+            <li><a href="/auth/login" class="text-gray-700 hover:text-vet-primary transition-colors duration-300 font-medium">Login Admin</a></li>
+          <% } %>
           <li><a href="#cita" class="bg-gradient-to-r from-vet-primary to-vet-secondary text-white px-4 py-2 rounded-lg hover:shadow-lg transition-all duration-300 font-medium">Agendar Cita</a></li>
         </ul>
         <div class="md:hidden flex flex-col space-y-1 cursor-pointer" id="hamburger">
@@ -343,7 +368,12 @@
           <a href="#servicios" class="block px-3 py-2 text-gray-700 hover:text-vet-primary hover:bg-gray-50 rounded-md transition-colors duration-300 font-medium">Servicios</a>
           <a href="#galeria" class="block px-3 py-2 text-gray-700 hover:text-vet-primary hover:bg-gray-50 rounded-md transition-colors duration-300 font-medium">Galería</a>
           <a href="#nosotros" class="block px-3 py-2 text-gray-700 hover:text-vet-primary hover:bg-gray-50 rounded-md transition-colors duration-300 font-medium">Nosotros</a>
-          <a href="/admin" class="block px-3 py-2 text-gray-700 hover:text-vet-primary hover:bg-gray-50 rounded-md transition-colors duration-300 font-medium">Admin</a>
+          <% if (isAuthenticated) { %>
+            <a href="/admin" class="block px-3 py-2 text-gray-700 hover:text-vet-primary hover:bg-gray-50 rounded-md transition-colors duration-300 font-medium">Admin</a>
+            <a href="/auth/logout" class="block px-3 py-2 text-red-600 hover:text-red-700 hover:bg-red-50 rounded-md transition-colors duration-300 font-medium">Cerrar Sesión</a>
+          <% } else { %>
+            <a href="/auth/login" class="block px-3 py-2 text-gray-700 hover:text-vet-primary hover:bg-gray-50 rounded-md transition-colors duration-300 font-medium">Login Admin</a>
+          <% } %>
           <a href="#cita" class="block mx-3 my-2 px-4 py-2 bg-gradient-to-r from-vet-primary to-vet-secondary text-white rounded-lg hover:shadow-lg transition-all duration-300 font-medium text-center">Agendar Cita</a>
         </div>
       </div>

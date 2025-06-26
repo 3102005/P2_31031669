@@ -3,22 +3,37 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "ts-node ./src/bin/www.ts"
+    "start": "ts-node ./src/bin/www.ts",
+    "dev": "nodemon --exec ts-node ./src/bin/www.ts",
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "serve": "node ./dist/bin/www.js",
+    "clean": "rimraf dist"
   },
   "dependencies": {
+    "axios": "^1.6.0",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
-    "ejs": "~2.6.1",
-    "express": "~4.16.1",
+    "dotenv": "^16.5.0",
+    "ejs": "^3.1.10",
+    "express": "^4.21.2",
+    "express-validator": "^7.0.1",
     "http-errors": "~1.6.3",
-    "morgan": "~1.9.1"
+    "morgan": "~1.9.1",
+    "nodemailer": "^6.9.0",
+    "sqlite3": "^5.1.6"
   },
   "devDependencies": {
     "@types/cookie-parser": "^1.4.8",
     "@types/debug": "^4.1.12",
+    "@types/dotenv": "^6.1.1",
     "@types/express": "^5.0.1",
     "@types/morgan": "^1.9.9",
     "@types/node": "^22.14.0",
+    "@types/nodemailer": "^6.4.14",
+    "@types/sqlite3": "^3.1.11",
+    "nodemon": "^3.1.10",
+    "rimraf": "^5.0.5",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3"
   }

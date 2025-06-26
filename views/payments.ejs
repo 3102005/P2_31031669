@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestión de Pagos - Patitas Móviles</title>
+  <link rel="stylesheet" href="/stylesheets/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    body {
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      min-height: 100vh;
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+    }
+    
+    .payments-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    
+    .payments-header {
+      text-align: center;
+      margin-bottom: 3rem;
+      color: white;
+    }
+    
+    .payments-header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+      font-weight: 700;
+    }
+    
+    .payments-header p {
+      font-size: 1.1rem;
+      opacity: 0.9;
+    }
+    
+    .back-btn {
+      position: fixed;
+      top: 2rem;
+      left: 2rem;
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      padding: 0.75rem 1rem;
+      border-radius: 50px;
+      text-decoration: none;
+      backdrop-filter: blur(10px);
+      transition: all 0.3s ease;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      z-index: 1000;
+    }
+    
+    .back-btn:hover {
+      background: rgba(255, 255, 255, 0.3);
+      color: white;
+      text-decoration: none;
+      transform: translateX(-5px);
+    }
+    
+    .payments-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 3rem;
+    }
+    
+    .stat-card {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 2rem;
+      border-radius: 15px;
+      text-align: center;
+      color: white;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    
+    .stat-label {
+      font-size: 1rem;
+      opacity: 0.9;
+    }
+    
+    .payments-table-container {
+      background: white;
+      border-radius: 15px;
+      padding: 2rem;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      overflow-x: auto;
+    }
+    
+    .table-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid #f0f0f0;
+    }
+    
+    .table-header h2 {
+      margin: 0;
+      color: #333;
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+    
+    .refresh-btn {
+      background: linear-gradient(135deg, #f093fb, #f5576c);
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+    
+    .refresh-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(240, 147, 251, 0.4);
+    }
+    
+    .payments-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+    
+    .payments-table th,
+    .payments-table td {
+      padding: 1rem;
+      text-align: left;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .payments-table th {
+      background: #f8f9fa;
+      font-weight: 600;
+      color: #333;
+      position: sticky;
+      top: 0;
+    }
+    
+    .payments-table tr:hover {
+      background: #f8f9fa;
+    }
+    
+    .status-badge {
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      text-transform: uppercase;
+    }
+    
+    .status-approved {
+      background: #d4edda;
+      color: #155724;
+    }
+    
+    .status-rejected {
+      background: #f8d7da;
+      color: #721c24;
+    }
+    
+    .status-error {
+      background: #fff3cd;
+      color: #856404;
+    }
+    
+    .status-insufficient {
+      background: #e2e3e5;
+      color: #383d41;
+    }
+    
+    .amount {
+      font-weight: 600;
+      color: #28a745;
+    }
+    
+    .loading {
+      text-align: center;
+      padding: 3rem;
+      color: #666;
+    }
+    
+    .loading i {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    .no-data {
+      text-align: center;
+      padding: 3rem;
+      color: #666;
+    }
+    
+    .no-data i {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      color: #ddd;
+    }
+    
+    @media (max-width: 768px) {
+      .payments-container {
+        padding: 1rem;
+      }
+      
+      .back-btn {
+        position: static;
+        margin-bottom: 2rem;
+        display: inline-flex;
+        align-items: center;
+      }
+      
+      .payments-table-container {
+        padding: 1rem;
+      }
+      
+      .table-header {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: stretch;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="payments-container">
+    <a href="/admin" class="back-btn">
+      <i class="fas fa-arrow-left"></i>
+      Volver al Admin
+    </a>
+    
+    <div class="payments-header">
+      <h1><i class="fas fa-credit-card"></i> Gestión de Pagos</h1>
+      <p>Monitorea y administra todas las transacciones de pago</p>
+    </div>
+    
+    <div class="payments-stats">
+      <div class="stat-card">
+        <div class="stat-number" id="totalPayments">0</div>
+        <div class="stat-label">Total Pagos</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" id="approvedPayments">0</div>
+        <div class="stat-label">Aprobados</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" id="totalAmount">$0</div>
+        <div class="stat-label">Monto Total</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" id="successRate">0%</div>
+        <div class="stat-label">Tasa de Éxito</div>
+      </div>
+    </div>
+    
+    <div class="payments-table-container">
+      <div class="table-header">
+        <h2>Historial de Pagos</h2>
+        <button class="refresh-btn" onclick="loadPayments()">
+          <i class="fas fa-sync-alt"></i>
+          Actualizar
+        </button>
+      </div>
+      
+      <div id="paymentsContent">
+        <div class="loading">
+          <i class="fas fa-spinner"></i>
+          <p>Cargando pagos...</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    let payments = [];
+    
+    async function loadPayments() {
+      const contentDiv = document.getElementById('paymentsContent');
+      contentDiv.innerHTML = `
+        <div class="loading">
+          <i class="fas fa-spinner"></i>
+          <p>Cargando pagos...</p>
+        </div>
+      `;
+      
+      try {
+        const response = await fetch('/payment/list');
+        const data = await response.json();
+        
+        if (data.success && data.payments) {
+          payments = data.payments;
+          displayPayments(payments);
+          updateStats(payments);
+        } else {
+          showNoData();
+        }
+      } catch (error) {
+        console.error('Error loading payments:', error);
+        showError();
+      }
+    }
+    
+    function displayPayments(paymentsData) {
+      const contentDiv = document.getElementById('paymentsContent');
+      
+      if (paymentsData.length === 0) {
+        showNoData();
+        return;
+      }
+      
+      const tableHTML = `
+        <table class="payments-table">
+          <thead>
+            <tr>
+              <th>ID Transacción</th>
+              <th>Servicio</th>
+              <th>Monto</th>
+              <th>Moneda</th>
+              <th>Email</th>
+              <th>Titular</th>
+              <th>Estado</th>
+              <th>Fecha</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${paymentsData.map(payment => `
+              <tr>
+                <td><strong>#${payment.id}</strong></td>
+                <td>${payment.service || 'N/A'}</td>
+                <td class="amount">$${payment.amount}</td>
+                <td>${payment.currency}</td>
+                <td>${payment.email}</td>
+                <td>${payment.cardHolderName}</td>
+                <td><span class="status-badge status-${getStatusClass(payment.status)}">${getStatusText(payment.status)}</span></td>
+                <td>${formatDate(payment.createdAt)}</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      `;
+      
+      contentDiv.innerHTML = tableHTML;
+    }
+    
+    function updateStats(paymentsData) {
+      const total = paymentsData.length;
+      const approved = paymentsData.filter(p => p.status === 'APPROVED').length;
+      const totalAmount = paymentsData
+        .filter(p => p.status === 'APPROVED')
+        .reduce((sum, p) => sum + parseFloat(p.amount), 0);
+      const successRate = total > 0 ? Math.round((approved / total) * 100) : 0;
+      
+      document.getElementById('totalPayments').textContent = total;
+      document.getElementById('approvedPayments').textContent = approved;
+      document.getElementById('totalAmount').textContent = `$${totalAmount.toFixed(2)}`;
+      document.getElementById('successRate').textContent = `${successRate}%`;
+    }
+    
+    function getStatusClass(status) {
+      switch(status) {
+        case 'APPROVED': return 'approved';
+        case 'REJECTED': return 'rejected';
+        case 'ERROR': return 'error';
+        case 'INSUFFICIENT': return 'insufficient';
+        default: return 'error';
+      }
+    }
+    
+    function getStatusText(status) {
+      switch(status) {
+        case 'APPROVED': return 'Aprobado';
+        case 'REJECTED': return 'Rechazado';
+        case 'ERROR': return 'Error';
+        case 'INSUFFICIENT': return 'Fondos Insuf.';
+        default: return 'Desconocido';
+      }
+    }
+    
+    function formatDate(dateString) {
+      const date = new Date(dateString);
+      return date.toLocaleDateString('es-ES', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+    }
+    
+    function showNoData() {
+      const contentDiv = document.getElementById('paymentsContent');
+      contentDiv.innerHTML = `
+        <div class="no-data">
+          <i class="fas fa-inbox"></i>
+          <p>No hay pagos registrados aún</p>
+        </div>
+      `;
+    }
+    
+    function showError() {
+      const contentDiv = document.getElementById('paymentsContent');
+      contentDiv.innerHTML = `
+        <div class="no-data">
+          <i class="fas fa-exclamation-triangle"></i>
+          <p>Error al cargar los pagos</p>
+          <button class="refresh-btn" onclick="loadPayments()" style="margin-top: 1rem;">
+            <i class="fas fa-retry"></i>
+            Reintentar
+          </button>
+        </div>
+      `;
+    }
+    
+    // Load payments on page load
+    document.addEventListener('DOMContentLoaded', function() {
+      loadPayments();
+    });
+  </script>
+
+  <!-- Google Analytics -->
+  <% if (googleAnalyticsId) { %>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=<%= googleAnalyticsId %>"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', '<%= googleAnalyticsId %>');
+  </script>
+  <% } %>
+</body>
+</html>

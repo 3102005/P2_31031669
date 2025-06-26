@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            'inter': ['Inter', 'sans-serif'],
+          },
+          colors: {
+            'vet-primary': '#667eea',
+            'vet-secondary': '#764ba2',
+            'vet-accent': '#f093fb',
+            'vet-pink': '#f5576c',
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="font-inter bg-gradient-to-br from-vet-primary to-vet-secondary min-h-screen flex items-center justify-center">
+  <div class="max-w-md w-full mx-4">
+    <!-- Header -->
+    <div class="text-center mb-8">
+      <div class="inline-flex items-center justify-center w-16 h-16 bg-white rounded-full mb-4 shadow-lg">
+        <i class="fas fa-user-plus text-vet-primary text-2xl"></i>
+      </div>
+      <h1 class="text-3xl font-bold text-white mb-2">Registrar Usuario</h1>
+      <p class="text-white/80">Solo administradores</p>
+    </div>
+
+    <!-- Register Form -->
+    <div class="bg-white rounded-2xl shadow-2xl p-8">
+      <% if (error) { %>
+        <div class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-6">
+          <div class="flex items-center">
+            <i class="fas fa-exclamation-circle mr-2"></i>
+            <%= error %>
+          </div>
+        </div>
+      <% } %>
+
+      <% if (success) { %>
+        <div class="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg mb-6">
+          <div class="flex items-center">
+            <i class="fas fa-check-circle mr-2"></i>
+            <%= success %>
+          </div>
+        </div>
+      <% } %>
+
+      <form action="/auth/register" method="POST" class="space-y-6">
+        <div>
+          <label for="username" class="block text-sm font-medium text-gray-700 mb-2">
+            <i class="fas fa-user mr-2 text-vet-primary"></i>
+            Nombre de Usuario *
+          </label>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            required
+            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-vet-primary focus:border-transparent transition-all duration-200"
+            placeholder="Mínimo 3 caracteres"
+          >
+          <p class="text-xs text-gray-500 mt-1">Solo letras, números y guiones bajos</p>
+        </div>
+
+        <div>
+          <label for="email" class="block text-sm font-medium text-gray-700 mb-2">
+            <i class="fas fa-envelope mr-2 text-vet-primary"></i>
+            Email (Opcional)
+          </label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-vet-primary focus:border-transparent transition-all duration-200"
+            placeholder="usuario@ejemplo.com"
+          >
+        </div>
+
+        <div>
+          <label for="password" class="block text-sm font-medium text-gray-700 mb-2">
+            <i class="fas fa-lock mr-2 text-vet-primary"></i>
+            Contraseña *
+          </label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            required
+            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-vet-primary focus:border-transparent transition-all duration-200"
+            placeholder="Mínimo 6 caracteres"
+          >
+        </div>
+
+        <div>
+          <label for="confirmPassword" class="block text-sm font-medium text-gray-700 mb-2">
+            <i class="fas fa-lock mr-2 text-vet-primary"></i>
+            Confirmar Contraseña *
+          </label>
+          <input
+            type="password"
+            id="confirmPassword"
+            name="confirmPassword"
+            required
+            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-vet-primary focus:border-transparent transition-all duration-200"
+            placeholder="Repite la contraseña"
+          >
+        </div>
+
+        <button
+          type="submit"
+          class="w-full bg-gradient-to-r from-vet-primary to-vet-secondary text-white font-semibold py-3 px-6 rounded-lg hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200"
+        >
+          <i class="fas fa-user-plus mr-2"></i>
+          Crear Usuario
+        </button>
+      </form>
+
+      <!-- Navigation -->
+      <div class="flex justify-between items-center mt-6 pt-6 border-t border-gray-200">
+        <a href="/admin" class="text-vet-primary hover:text-vet-secondary transition-colors duration-200">
+          <i class="fas fa-arrow-left mr-2"></i>
+          Volver al Admin
+        </a>
+        <a href="/auth/logout" class="text-red-500 hover:text-red-600 transition-colors duration-200">
+          <i class="fas fa-sign-out-alt mr-2"></i>
+          Cerrar Sesión
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Password confirmation validation
+    document.getElementById('confirmPassword').addEventListener('input', function() {
+      const password = document.getElementById('password').value;
+      const confirmPassword = this.value;
+      
+      if (password !== confirmPassword) {
+        this.setCustomValidity('Las contraseñas no coinciden');
+      } else {
+        this.setCustomValidity('');
+      }
+    });
+
+    document.getElementById('password').addEventListener('input', function() {
+      const confirmPassword = document.getElementById('confirmPassword');
+      if (confirmPassword.value) {
+        confirmPassword.dispatchEvent(new Event('input'));
+      }
+    });
+  </script>
+</body>
+</html>

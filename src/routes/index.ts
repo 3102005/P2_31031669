@@ -2,6 +2,8 @@ import express, { Request, Response, NextFunction } from 'express';
 import contactRoutes from './contact';
 import paymentRoutes from './payment';
 import ContactController from '../controllers/ContactController';
+import AdminController from '../controllers/AdminController';
+import { requireAuth } from '../middleware/auth';
 
 const router = express.Router();
 
@@ -18,25 +20,24 @@ router.get('/', (req: Request, res: Response, next: NextFunction) => {
   });
 });
 
-// Contacts view page
-router.get('/contacts', async (req, res) => {
+// Contacts view page (protected)
+router.get('/contacts', requireAuth, async (req, res) => {
   const contactController = new ContactController();
   await contactController.renderContactsView(req, res);
 });
 
-// Admin page
-router.get('/admin', (req, res) => {
-  res.render('admin', {
-    title: 'Panel de Administración',
-    googleAnalyticsId: process.env.GOOGLE_ANALYTICS_ID || ''
-  });
+// Admin page (protected)
+router.get('/admin', requireAuth, async (req, res) => {
+  const adminController = new AdminController();
+  await adminController.renderAdminView(req, res);
 });
 
-// Payments view page
-router.get('/payments', (req, res) => {
+// Payments view page (protected)
+router.get('/payments', requireAuth, (req, res) => {
   res.render('payments', {
     title: 'Pagos',
-    googleAnalyticsId: process.env.GOOGLE_ANALYTICS_ID || ''
+    googleAnalyticsId: process.env.GOOGLE_ANALYTICS_ID || '',
+    user: req.user
   });
 });
 

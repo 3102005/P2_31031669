@@ -1,49 +1,23 @@
-import express, { Request, Response, NextFunction } from 'express';
-import contactRoutes from './contact';
-import paymentRoutes from './payment';
+import { Router } from 'express';
 import ContactController from '../controllers/ContactController';
 
-const router = express.Router();
+const router = Router();
+const contactController = new ContactController();
 
-/* GET home page. */
-router.get('/', (req: Request, res: Response, next: NextFunction) => {
-  res.render('index', {
-    title: 'Patitas Móviles - Veterinaria a Domicilio',
-    googleAnalyticsId: process.env.GOOGLE_ANALYTICS_ID || '',
-    recaptchaSiteKey: process.env.RECAPTCHA_SITE_KEY || '',
-    Nombres: 'Cristhian Alfonzo Angyalbert',
-    Apellidos: 'Padron Alvarez',
-    CI: '31.031.669',
-    Seccion: '4'
-  });
-});
+// Ruta para obtener la configuración (reCAPTCHA site key, Google Analytics)
+router.get('/config', contactController.getConfig.bind(contactController));
 
-// Contacts view page
-router.get('/contacts', async (req, res) => {
-  const contactController = new ContactController();
-  await contactController.renderContactsView(req, res);
-});
+// Ruta para renderizar la vista de contactos
+router.get('/view', contactController.renderContactsView.bind(contactController));
 
-// Admin page
-router.get('/admin', (req, res) => {
-  res.render('admin', {
-    title: 'Panel de Administración',
-    googleAnalyticsId: process.env.GOOGLE_ANALYTICS_ID || ''
-  });
-});
+// Ruta para enviar el formulario de contacto
+router.post('/submit', 
+  contactController.getValidationRules(),
+  contactController.submitContact.bind(contactController)
+);
 
-// Payments view page
-router.get('/payments', (req, res) => {
-  res.render('payments', {
-    title: 'Pagos',
-    googleAnalyticsId: process.env.GOOGLE_ANALYTICS_ID || ''
-  });
-});
-
-// Rutas de contacto
-router.use('/contact', contactRoutes);
-
-// Usar las rutas de pago
-router.use('/payment', paymentRoutes);
+// Rutas para administración (opcional)
+router.get('/all', contactController.getAllContacts.bind(contactController));
+router.get('/:id', contactController.getContactById.bind(contactController));
 
 export default router;

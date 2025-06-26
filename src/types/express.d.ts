@@ -7,12 +7,17 @@ declare global {
       // Errores de validación
       validationErrors?: ValidationError[];
       
-      // Usuario autenticado (para futuro uso)
+      // Usuario autenticado
       user?: {
         id: number;
-        email: string;
-        role: 'admin' | 'veterinario' | 'cliente';
+        username: string;
+        email?: string;
+        google_id?: string;
+        created_at: string;
       };
+      
+      // Flash messages
+      flash?: (type: string, message?: string) => string[] | void;
       
       // Datos de sesión personalizados
       sessionData?: {
@@ -22,6 +27,10 @@ declare global {
           language?: 'es' | 'en';
         };
       };
+    }
+    
+    interface Session {
+      returnTo?: string;
     }
     
     interface Response {

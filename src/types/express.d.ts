@@ -27,10 +27,6 @@ declare global {
           language?: 'es' | 'en';
         };
       };
-      
-      // i18next properties
-      t?: (key: string, options?: any) => string;
-      language?: string;
     }
     
     interface Session {

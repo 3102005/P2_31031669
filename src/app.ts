@@ -8,7 +8,7 @@ import flash from 'connect-flash';
 import passport from './config/passport';
 import dotenv from 'dotenv';
 import i18next from './services/I18nService';
-import middleware from 'i18next-http-middleware';
+import i18nextMiddleware from 'i18next-http-middleware';
 
 // Load environment variables
 dotenv.config();
@@ -53,7 +53,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // i18n middleware
-app.use(middleware.handle(i18next, {}));
+app.use(i18nextMiddleware.handle(i18next));
 
 // Add user info to all views
 app.use(addUserToViews);

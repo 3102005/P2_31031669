@@ -1,0 +1,273 @@
+{
+  "nav": {
+    "home": "Home",
+    "services": "Services",
+    "gallery": "Gallery",
+    "about": "About Us",
+    "admin": "Admin",
+    "logout": "Logout",
+    "login": "Admin Login",
+    "schedule": "Schedule Appointment"
+  },
+  "hero": {
+    "title": "Veterinary care",
+    "titleHighlight": "in the comfort of your home",
+    "description": "We provide professional medical care for your pets without the stress of transportation. Your furry companion will feel safe and comfortable at home.",
+    "scheduleConsultation": "Schedule Consultation",
+     "viewServices": "View Services",
+     "professionalCare": "Professional care"
+  },
+  "services": {
+    "title": "Our Services",
+    "subtitle": "Comprehensive care for your pet's wellbeing",
+    "general": {
+      "name": "General Consultation",
+      "description": "Complete health examination, diagnosis and basic treatment in the comfort of your home.",
+      "price": "From"
+    },
+    "vaccination": {
+      "name": "Vaccination",
+      "description": "Complete vaccination program to keep your pet protected against diseases.",
+      "price": "From"
+    },
+    "grooming": {
+      "name": "Grooming",
+      "description": "Grooming and aesthetic care service to make your pet look and feel better.",
+      "price": "From"
+    },
+    "treatments": {
+      "name": "Treatments",
+      "description": "Medication administration and specialized medical treatment follow-up.",
+      "price": "From"
+    },
+    "requestService": "Request Service"
+  },
+  "payment": {
+    "processPayment": "Process Payment",
+    "selectedService": "Selected Service",
+    "amount": "Amount"
+  },
+  "currency": {
+    "symbol": "$",
+    "code": "USD",
+    "name": "US Dollar"
+  },
+  "dateFormat": {
+    "locale": "en-US",
+    "options": {
+      "year": "numeric",
+      "month": "short",
+      "day": "numeric",
+      "hour": "2-digit",
+      "minute": "2-digit",
+      "hour12": true
+    }
+  },
+  "language": {
+    "select": "Language",
+    "spanish": "Español",
+    "english": "English"
+  },
+  "auth": {
+    "login": {
+      "title": "Login",
+      "email": "User",
+      "password": "Password",
+      "submit": "Login",
+      "googleLogin": "Continue with Google",
+      "backToHome": "Back to home",
+      "demoCredentials": "Demo credentials:",
+      "demoUser": "User:",
+      "demoPassword": "Password:"
+    },
+    "register": {
+      "title": "Register User",
+      "username": "Username",
+      "email": "Email",
+      "password": "Password",
+      "confirmPassword": "Confirm Password",
+      "submit": "Register",
+      "adminOnly": "Administrators only",
+      "backToAdmin": "Back to Admin",
+      "logout": "Logout",
+      "usernameHelp": "Only letters, numbers and underscores",
+      "emailOptional": "(Optional)",
+      "passwordMismatch": "Passwords do not match"
+    }
+  },
+  "admin": {
+    "title": "Administration Panel",
+    "subtitle": "Manage your veterinary clinic",
+    "welcome": "Welcome",
+    "logout": "Sign Out",
+    "stats": {
+      "totalContacts": "Total Contacts",
+      "totalPayments": "Total Payments",
+      "totalRevenue": "Total Revenue",
+      "pendingAppointments": "Pending Appointments"
+    },
+    "actions": {
+      "viewContacts": "View Contacts",
+      "viewPayments": "View Payments",
+      "registerUser": "Register User",
+      "backToSite": "Back to Site"
+    },
+    "quickActions": "Quick Actions",
+    "overview": "Overview",
+    "satisfaction": "Satisfaction",
+    "contactManagement": {
+      "title": "Contact Management",
+      "description": "View and manage all contact messages received through the web form. Review inquiries, appointment requests and customer comments."
+    },
+    "paymentManagement": {
+      "title": "Payment Management",
+      "description": "Monitor all payment transactions made by customers. Review payment status, amounts and transaction details."
+    }
+  },
+  "contacts": {
+    "title": "Registered Contacts",
+    "subtitle": "Contact and inquiry management",
+    "backToHome": "Back to Home",
+    "stats": {
+      "totalContacts": "Total Contacts",
+      "today": "Today",
+      "thisWeek": "This Week",
+      "countries": "Countries"
+    },
+    "listTitle": "Contact List",
+    "searchPlaceholder": "Search contacts...",
+    "loading": "Loading contacts...",
+    "noContacts": "No contacts registered",
+    "phoneNotSpecified": "Not specified",
+    "message": "Message:",
+    "location": "Location:"
+  },
+  "payments": {
+    "title": "Payment Management",
+    "subtitle": "Monitor and manage all payment transactions",
+    "backToAdmin": "Back to Admin",
+    "stats": {
+      "totalPayments": "Total Payments",
+      "approved": "Approved",
+      "totalAmount": "Total Amount",
+      "successRate": "Success Rate"
+    },
+    "historyTitle": "Payment History",
+    "searchPlaceholder": "Search payments by email, service, amount...",
+    "refresh": "Refresh",
+    "loading": "Loading payments...",
+    "noPayments": "No payments registered yet",
+    "loadError": "Error loading payments",
+    "retry": "Retry",
+    "table": {
+      "transactionId": "Transaction ID",
+      "service": "Service",
+      "amount": "Amount",
+      "currency": "Currency",
+      "email": "Email",
+      "cardHolder": "Card Holder",
+      "status": "Status",
+      "date": "Date"
+    },
+    "status": {
+      "approved": "Approved",
+      "rejected": "Rejected",
+      "error": "Error",
+      "insufficient": "Insufficient Funds",
+      "unknown": "Unknown"
+    }
+  },
+  "error": {
+    "title": "Error",
+    "status": "Status:"
+  },
+  "modal": {
+    "currency": "Currency *",
+    "email": "Email *",
+    "cardHolderName": "Card Holder Name *",
+    "cardNumber": "Card Number *",
+    "cardNumberPlaceholder": "1234 5678 9012 3456",
+    "expirationMonth": "Month *",
+    "expirationYear": "Year *",
+    "cvv": "CVV *",
+    "cvvPlaceholder": "123",
+    "cancel": "Cancel",
+    "processing": "Processing...",
+    "payNow": "Pay Now",
+    "processPayment": "Process Payment",
+    "paymentSuccess": "Payment Successful!",
+    "processingPayment": "Processing payment...",
+    "hideTestData": "Hide Test Data",
+    "fillTestData": "Fill with Test Data",
+    "paymentProcessedSuccessfully": "Payment processed successfully",
+    "paymentProcessingError": "Error processing payment",
+    "connectionError": "Connection error. Please try again."
+  },
+  "payment": {
+    "sslProtection": "Your data is protected with 256-bit SSL encryption"
+  },
+  "footer": {
+    "emergencies": "24/7 Emergencies",
+    "information": "Information",
+    "about": "About Us",
+    "faq": "FAQ",
+    "terms": "Terms & Conditions",
+    "privacy": "Privacy Policy",
+    "copyright": "© 2024 VetCare. All rights reserved.",
+    "tagline": "Caring for your pet with love and professionalism from the comfort of your home."
+  },
+  "gallery": {
+    "title": "Gallery",
+    "subtitle": "Meet some of the pets we have cared for"
+  },
+  "about": {
+    "title": "About Us",
+    "description": "We are a team of professional veterinarians dedicated to caring for your pet in the comfort of your home.",
+    "comfort": {
+      "title": "Comfort",
+      "description": "Your pet feels more relaxed in their familiar environment"
+    },
+    "flexibility": {
+      "title": "Flexibility",
+      "description": "Schedules adapted to your availability"
+    },
+    "lessStress": {
+      "title": "Less Stress",
+      "description": "We avoid the stress of transportation and waiting rooms"
+    },
+    "professionals": {
+      "title": "Professionals",
+      "description": "Certified veterinarians with years of experience"
+    },
+    "stats": {
+      "petsAttended": "Pets Attended",
+      "experience": "Years of Experience",
+      "emergencies": "Emergencies",
+      "satisfaction": "Customer Satisfaction"
+    }
+  },
+   "contact": {
+    "title": "Contact",
+    "readyToTakeCare": "Ready to take care of your pet?",
+    "callToAction": "Contact us today to schedule an appointment",
+    "info": {
+      "phone": "Phone",
+      "email": "Email",
+      "coverage": "Coverage",
+      "coverageArea": "Caracas and metropolitan area",
+      "schedule": "Schedule",
+      "scheduleTime": "Mon - Sun: 8:00 AM - 8:00 PM"
+    },
+    "form": {
+      "title": "Send us a message",
+      "subtitle": "We will get in touch with you as soon as possible",
+      "fullName": "Full name",
+      "email": "Email",
+      "phone": "Phone",
+      "phonePlaceholder": "+58 424-123-4567",
+      "message": "Message",
+      "messagePlaceholder": "Tell us about your pet and what service you need...",
+      "sendMessage": "Send message"
+    }
+  }
+}

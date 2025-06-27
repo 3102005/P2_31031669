@@ -36,9 +36,9 @@ app.use(session({
   saveUninitialized: false,
   rolling: true, // Reset expiration on activity
   cookie: {
-    secure: process.env.NODE_ENV === 'production', // HTTPS only in production
+    secure: false, // Temporarily disable for debugging
     httpOnly: true, // Prevent XSS attacks
-    sameSite: 'lax', // Allow OAuth redirects while maintaining security
+    sameSite: 'none', // More permissive for OAuth in production
     maxAge: 15 * 60 * 1000 // 15 minutes inactivity timeout
   }
 }));

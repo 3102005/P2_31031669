@@ -7,6 +7,7 @@ import session from 'express-session';
 import flash from 'connect-flash';
 import passport from './config/passport';
 import dotenv from 'dotenv';
+import i18next, { middleware as i18nextMiddleware } from './services/I18nService';
 
 // Load environment variables
 dotenv.config();
@@ -15,6 +16,7 @@ import indexRouter from './routes/index';
 import contactRouter from './routes/contact';
 import paymentRouter from './routes/payment';
 import authRouter from './routes/auth';
+import languageRouter from './routes/language';
 import { addUserToViews } from './middleware/auth';
 
 const app = express();
@@ -49,13 +51,25 @@ app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 
+// i18n middleware
+app.use(i18nextMiddleware.handle(i18next));
+
 // Add user info to all views
 app.use(addUserToViews);
+
+// Add i18n and localization to all views
+app.use((req: Request, res: Response, next: NextFunction) => {
+  res.locals.t = req.t;
+  res.locals.i18n = i18next;
+  res.locals.currentLanguage = req.language || 'es';
+  next();
+});
 
 app.use('/', indexRouter);
 app.use('/contact', contactRouter);
 app.use('/payment', paymentRouter);
 app.use('/auth', authRouter);
+app.use('/language', languageRouter);
 
 // Google OAuth callback route (direct endpoint)
 app.get('/callback', (req, res, next) => {

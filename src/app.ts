@@ -16,7 +16,6 @@ import contactRouter from './routes/contact';
 import paymentRouter from './routes/payment';
 import authRouter from './routes/auth';
 import { addUserToViews } from './middleware/auth';
-const FileStore = require('session-file-store')(session);
 
 const app = express();
 
@@ -30,22 +29,16 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '../public')));
 
-// Session configuration with security improvements
+// Session configuration - simplified for OAuth
 app.use(session({
-  store: new FileStore({
-    path: './sessions',
-    ttl: 15 * 60, // 15 minutes in seconds
-    retries: 0
-  }),
   secret: process.env.SESSION_SECRET || 'patitas-moviles-secret-key-2024',
   resave: false,
-  saveUninitialized: true, // Enable for OAuth
-  rolling: true, // Reset expiration on activity
+  saveUninitialized: false,
   cookie: {
-    secure: process.env.NODE_ENV === 'production', // HTTPS in production
-    httpOnly: true, // Prevent XSS attacks
-    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', // Conditional sameSite
-    maxAge: 15 * 60 * 1000 // 15 minutes inactivity timeout
+    secure: false,
+    httpOnly: true,
+    sameSite: 'lax',
+    maxAge: 24 * 60 * 60 * 1000 // 24 hours
   }
 }));
 

@@ -1,0 +1,272 @@
+{
+  "nav": {
+    "home": "Inicio",
+    "services": "Servicios",
+    "gallery": "Galería",
+    "about": "Nosotros",
+    "admin": "Admin",
+    "logout": "Cerrar Sesión",
+    "login": "Login Admin",
+    "schedule": "Agendar Cita"
+  },
+  "hero": {
+    "title": "Cuidado Veterinario",
+    "titleHighlight": "a Domicilio",
+    "description": "Brindamos atención veterinaria profesional en la comodidad de tu hogar. Tu mascota merece el mejor cuidado sin el estrés del transporte.",
+    "scheduleConsultation": "Agendar Consulta",
+     "viewServices": "Ver Servicios",
+     "professionalCare": "Cuidado profesional"
+  },
+  "services": {
+    "title": "Nuestros Servicios",
+    "subtitle": "Atención integral para el bienestar de tu mascota",
+    "general": {
+      "name": "Consulta General",
+      "description": "Examen completo de salud, diagnóstico y tratamiento básico en la comodidad de tu hogar.",
+      "price": "Desde"
+    },
+    "vaccination": {
+      "name": "Vacunación",
+      "description": "Programa completo de vacunas para mantener a tu mascota protegida contra enfermedades.",
+      "price": "Desde"
+    },
+    "grooming": {
+      "name": "Grooming",
+      "description": "Servicio de aseo y cuidado estético para que tu mascota luzca y se sienta mejor.",
+      "price": "Desde"
+    },
+    "treatments": {
+      "name": "Tratamientos",
+      "description": "Administración de medicamentos y seguimiento de tratamientos médicos especializados.",
+      "price": "Desde"
+    },
+    "requestService": "Solicitar Servicio"
+  },
+  "payment": {
+    "processPayment": "Procesar Pago",
+    "selectedService": "Servicio Seleccionado",
+    "amount": "Monto"
+  },
+  "currency": {
+    "symbol": "Bs",
+    "code": "VES",
+    "name": "Bolívar Venezolano"
+  },
+  "dateFormat": {
+    "locale": "es-ES",
+    "options": {
+      "year": "numeric",
+      "month": "short",
+      "day": "numeric",
+      "hour": "2-digit",
+      "minute": "2-digit"
+    }
+  },
+  "language": {
+    "select": "Idioma",
+    "spanish": "Español",
+    "english": "English"
+  },
+  "auth": {
+    "login": {
+      "title": "Iniciar Sesión",
+      "email": "Usuario",
+      "password": "Contraseña",
+      "submit": "Iniciar Sesión",
+      "googleLogin": "Continuar con Google",
+      "backToHome": "Volver al inicio",
+      "demoCredentials": "Credenciales de prueba:",
+      "demoUser": "Usuario:",
+      "demoPassword": "Contraseña:"
+    },
+    "register": {
+      "title": "Registrar Usuario",
+      "username": "Nombre de usuario",
+      "email": "Correo electrónico",
+      "password": "Contraseña",
+      "confirmPassword": "Confirmar contraseña",
+      "submit": "Registrar",
+      "adminOnly": "Solo administradores",
+      "backToAdmin": "Volver al Admin",
+      "logout": "Cerrar Sesión",
+      "usernameHelp": "Solo letras, números y guiones bajos",
+      "emailOptional": "(Opcional)",
+      "passwordMismatch": "Las contraseñas no coinciden"
+    }
+  },
+  "admin": {
+    "title": "Panel de Administración",
+    "subtitle": "Gestiona tu clínica veterinaria",
+    "welcome": "Bienvenido",
+    "logout": "Cerrar Sesión",
+    "stats": {
+      "totalContacts": "Total Contactos",
+      "totalPayments": "Total Pagos",
+      "totalRevenue": "Ingresos Totales",
+      "pendingAppointments": "Citas Pendientes"
+    },
+    "actions": {
+      "viewContacts": "Ver Contactos",
+      "viewPayments": "Ver Pagos",
+      "registerUser": "Registrar Usuario",
+      "backToSite": "Volver al Sitio"
+    },
+    "quickActions": "Acciones Rápidas",
+    "overview": "Resumen",
+    "satisfaction": "Satisfacción",
+    "contactManagement": {
+      "title": "Gestión de Contactos",
+      "description": "Visualiza y administra todos los mensajes de contacto recibidos a través del formulario web. Revisa consultas, solicitudes de citas y comentarios de los clientes."
+    },
+    "paymentManagement": {
+      "title": "Gestión de Pagos",
+      "description": "Monitorea todas las transacciones de pago realizadas por los clientes. Revisa el estado de los pagos, montos y detalles de las transacciones."
+    }
+  },
+  "contacts": {
+    "title": "Contactos Registrados",
+    "subtitle": "Gestión de contactos y consultas recibidas",
+    "backToHome": "Volver al Inicio",
+    "stats": {
+      "totalContacts": "Total Contactos",
+      "today": "Hoy",
+      "thisWeek": "Esta Semana",
+      "countries": "Países"
+    },
+    "listTitle": "Lista de Contactos",
+    "searchPlaceholder": "Buscar contactos...",
+    "loading": "Cargando contactos...",
+    "noContacts": "No hay contactos registrados",
+    "phoneNotSpecified": "No especificado",
+    "message": "Mensaje:",
+    "location": "Ubicación:"
+  },
+  "payments": {
+    "title": "Gestión de Pagos",
+    "subtitle": "Monitorea y administra todas las transacciones de pago",
+    "backToAdmin": "Volver al Admin",
+    "stats": {
+      "totalPayments": "Total Pagos",
+      "approved": "Aprobados",
+      "totalAmount": "Monto Total",
+      "successRate": "Tasa de Éxito"
+    },
+    "historyTitle": "Historial de Pagos",
+    "searchPlaceholder": "Buscar pagos por email, servicio, monto...",
+    "refresh": "Actualizar",
+    "loading": "Cargando pagos...",
+    "noPayments": "No hay pagos registrados aún",
+    "loadError": "Error al cargar los pagos",
+    "retry": "Reintentar",
+    "table": {
+      "transactionId": "ID Transacción",
+      "service": "Servicio",
+      "amount": "Monto",
+      "currency": "Moneda",
+      "email": "Email",
+      "cardHolder": "Titular",
+      "status": "Estado",
+      "date": "Fecha"
+    },
+    "status": {
+      "approved": "Aprobado",
+      "rejected": "Rechazado",
+      "error": "Error",
+      "insufficient": "Fondos Insuf.",
+      "unknown": "Desconocido"
+    }
+  },
+  "error": {
+    "title": "Error",
+    "status": "Estado:"
+  },
+  "modal": {
+    "currency": "Moneda *",
+    "email": "Email *",
+    "cardHolderName": "Nombre del Titular *",
+    "cardNumber": "Número de Tarjeta *",
+    "cardNumberPlaceholder": "1234 5678 9012 3456",
+    "expirationMonth": "Mes *",
+    "expirationYear": "Año *",
+    "cvv": "CVV *",
+    "cvvPlaceholder": "123",
+    "cancel": "Cancelar",
+    "processing": "Procesando...",
+    "payNow": "Pagar Ahora",
+    "processPayment": "Procesar Pago",
+    "paymentSuccess": "¡Pago Exitoso!",
+    "processingPayment": "Procesando pago...",
+    "hideTestData": "Ocultar Datos de Prueba",
+    "fillTestData": "Rellenar con Datos de Prueba",
+    "paymentProcessedSuccessfully": "Pago procesado exitosamente",
+    "paymentProcessingError": "Error al procesar el pago",
+    "connectionError": "Error de conexión. Por favor, intenta nuevamente."
+  },
+  "payment": {
+     "sslProtection": "Tus datos están protegidos con encriptación SSL de 256 bits"
+   },
+  "footer": {
+    "emergencies": "Emergencias 24/7",
+    "information": "Información",
+    "about": "Acerca de",
+    "faq": "Preguntas Frecuentes",
+    "terms": "Términos y Condiciones",
+    "privacy": "Política de Privacidad",
+    "copyright": "© 2024 VetCare. Todos los derechos reservados.",
+    "tagline": "Cuidando a tu mascota con amor y profesionalismo desde la comodidad de tu hogar."
+  },
+  "gallery": {
+    "title": "Galería",
+    "subtitle": "Conoce a algunas de las mascotas que hemos cuidado"
+  },
+  "about": {
+    "title": "Acerca de Nosotros",
+    "description": "Somos un equipo de veterinarios profesionales dedicados al cuidado de tu mascota en la comodidad de tu hogar.",
+    "comfort": {
+      "title": "Comodidad",
+      "description": "Tu mascota se siente más relajada en su entorno familiar"
+    },
+    "flexibility": {
+      "title": "Flexibilidad",
+      "description": "Horarios adaptados a tu disponibilidad"
+    },
+    "lessStress": {
+      "title": "Menos Estrés",
+      "description": "Evitamos el estrés del transporte y las salas de espera"
+    },
+    "professionals": {
+      "title": "Profesionales",
+      "description": "Veterinarios certificados con años de experiencia"
+    },
+    "stats": {
+      "petsAttended": "Mascotas Atendidas",
+      "experience": "Años de Experiencia",
+      "emergencies": "Emergencias",
+      "satisfaction": "Satisfacción del Cliente"
+    }
+  },
+   "contact": {
+    "title": "Contacto",
+    "readyToTakeCare": "¿Listo para cuidar a tu mascota?",
+    "callToAction": "Contáctanos hoy mismo para agendar una cita",
+    "info": {
+      "phone": "Teléfono",
+      "email": "Email",
+      "coverage": "Cobertura",
+      "coverageArea": "Caracas y área metropolitana",
+      "schedule": "Horarios",
+      "scheduleTime": "Lun - Dom: 8:00 AM - 8:00 PM"
+    },
+    "form": {
+      "title": "Envíanos un mensaje",
+      "subtitle": "Nos pondremos en contacto contigo lo antes posible",
+      "fullName": "Nombre completo",
+      "email": "Correo electrónico",
+      "phone": "Teléfono",
+      "phonePlaceholder": "+58 424-123-4567",
+      "message": "Mensaje",
+      "messagePlaceholder": "Cuéntanos sobre tu mascota y qué servicio necesitas...",
+      "sendMessage": "Enviar mensaje"
+    }
+  }
+}

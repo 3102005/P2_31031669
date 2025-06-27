@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="<%= currentLanguage %>">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Contactos Registrados - Veterinaria</title>
+  <title><%= t('contacts.title') %> - Veterinaria</title>
   <link rel="stylesheet" href="/css/style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <style>
@@ -178,21 +178,104 @@
       opacity: 0.5;
     }
     
-    .back-button {
-      display: inline-flex;
+    .top-navigation {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      right: 1rem;
+      display: flex;
+      justify-content: space-between;
       align-items: center;
-      gap: 0.5rem;
-      background: #3498db;
+      z-index: 1000;
+    }
+    
+    .back-button {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       color: white;
-      padding: 0.8rem 1.5rem;
-      border-radius: 5px;
+      padding: 0.75rem 1.5rem;
+      border-radius: 10px;
       text-decoration: none;
-      transition: background 0.3s ease;
-      margin-bottom: 2rem;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     }
     
     .back-button:hover {
-      background: #2980b9;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+      text-decoration: none;
+      color: white;
+    }
+    
+    .language-selector {
+      position: relative;
+      display: inline-block;
+    }
+    
+    .language-btn {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border: none;
+      color: white;
+      padding: 0.75rem 1rem;
+      border-radius: 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    
+    .language-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+    }
+    
+    .language-dropdown {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      margin-top: 0.5rem;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-10px);
+      transition: all 0.3s ease;
+      z-index: 1000;
+      min-width: 120px;
+    }
+    
+    .language-selector:hover .language-dropdown {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+    
+    .language-option {
+      display: block;
+      padding: 0.75rem 1rem;
+      color: #333;
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: background-color 0.2s ease;
+    }
+    
+    .language-option:first-child {
+      border-radius: 10px 10px 0 0;
+    }
+    
+    .language-option:last-child {
+      border-radius: 0 0 10px 10px;
+    }
+    
+    .language-option:hover {
+      background-color: #f8f9fa;
+      text-decoration: none;
+      color: #333;
     }
     
     @media (max-width: 768px) {
@@ -213,52 +296,67 @@
 </head>
 <body>
   <div class="contacts-container">
-    <a href="/" class="back-button">
-      <i class="fas fa-arrow-left"></i>
-      Volver al Inicio
-    </a>
+    <div class="top-navigation">
+      <a href="/" class="back-button">
+        <i class="fas fa-arrow-left"></i>
+        <%= t('contacts.backToHome') %>
+      </a>
+      
+      <!-- Language Selector -->
+      <div class="language-selector">
+        <button class="language-btn">
+          <i class="fas fa-globe"></i>
+          <span><%= currentLanguage === 'es' ? 'ES' : 'EN' %></span>
+          <i class="fas fa-chevron-down"></i>
+        </button>
+        <div class="language-dropdown">
+          <a href="/language/change/es" class="language-option">🇪🇸 Español</a>
+          <a href="/language/change/en" class="language-option">🇺🇸 English</a>
+        </div>
+      </div>
+    </div>
     
     <div class="contacts-header">
-      <h1><i class="fas fa-address-book"></i> Contactos Registrados</h1>
-      <p>Gestión de contactos y consultas recibidas</p>
+      <h1><i class="fas fa-address-book"></i> <%= t('contacts.title') %></h1>
+      <p><%= t('contacts.subtitle') %></p>
     </div>
     
     <div class="contacts-stats">
       <div class="stat-card">
         <i class="fas fa-users"></i>
         <h3 id="totalContacts">0</h3>
-        <p>Total Contactos</p>
+        <p><%= t('contacts.stats.totalContacts') %></p>
       </div>
       <div class="stat-card">
         <i class="fas fa-calendar-day"></i>
         <h3 id="todayContacts">0</h3>
-        <p>Hoy</p>
+        <p><%= t('contacts.stats.today') %></p>
       </div>
       <div class="stat-card">
         <i class="fas fa-calendar-week"></i>
         <h3 id="weekContacts">0</h3>
-        <p>Esta Semana</p>
+        <p><%= t('contacts.stats.thisWeek') %></p>
       </div>
       <div class="stat-card">
         <i class="fas fa-globe"></i>
         <h3 id="uniqueCountries">0</h3>
-        <p>Países</p>
+        <p><%= t('contacts.stats.countries') %></p>
       </div>
     </div>
     
     <div class="contacts-table">
       <div class="table-header">
-        <h2><i class="fas fa-list"></i> Lista de Contactos</h2>
+        <h2><i class="fas fa-list"></i> <%= t('contacts.listTitle') %></h2>
         <div class="search-box">
           <i class="fas fa-search"></i>
-          <input type="text" id="searchInput" placeholder="Buscar contactos...">
+          <input type="text" id="searchInput" placeholder="<%= t('contacts.searchPlaceholder') %>">
         </div>
       </div>
       
       <div class="contacts-grid" id="contactsGrid">
         <div class="no-contacts">
           <i class="fas fa-spinner fa-spin"></i>
-          <p>Cargando contactos...</p>
+          <p><%= t('contacts.loading') %></p>
         </div>
       </div>
     </div>
@@ -293,7 +391,7 @@
         grid.innerHTML = `
           <div class="no-contacts">
             <i class="fas fa-inbox"></i>
-            <p>No hay contactos registrados</p>
+            <p><%= t('contacts.noContacts') %></p>
           </div>
         `;
         return;
@@ -313,7 +411,7 @@
             </div>
             <div class="info-item">
               <i class="fas fa-phone"></i>
-              <span>${escapeHtml(contact.telefono || 'No especificado')}</span>
+              <span>${escapeHtml(contact.telefono || '<%= t("contacts.phoneNotSpecified") %>')}</span>
             </div>
             <div class="info-item">
               <i class="fas fa-user"></i>
@@ -323,7 +421,7 @@
           
           ${contact.mensaje ? `
             <div class="contact-message">
-              <strong>Mensaje:</strong><br>
+              <strong><%= t('contacts.message') %></strong><br>
               ${escapeHtml(contact.mensaje).replace(/\n/g, '<br>')}
             </div>
           ` : ''}
@@ -331,7 +429,7 @@
           ${contact.pais || contact.ciudad ? `
             <div class="location-info">
               <i class="fas fa-map-marker-alt"></i>
-              <strong>Ubicación:</strong> 
+              <strong><%= t('contacts.location') %></strong> 
               ${[contact.ciudad, contact.pais].filter(Boolean).join(', ')}
               ${contact.ip_address ? ` (IP: ${contact.ip_address})` : ''}
             </div>
@@ -378,13 +476,16 @@
     
     function formatDate(dateString) {
       const date = new Date(dateString);
-      return date.toLocaleDateString('es-ES', {
+      const locale = '<%= currentLanguage === "en" ? "en-US" : "es-ES" %>';
+      const options = {
         year: 'numeric',
         month: 'short',
         day: 'numeric',
         hour: '2-digit',
         minute: '2-digit'
-      });
+        <% if (currentLanguage === 'en') { %>, hour12: true<% } %>
+      };
+      return date.toLocaleDateString(locale, options);
     }
     
     function escapeHtml(text) {

@@ -53,7 +53,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // i18n middleware
-app.use(middleware.handle(i18next));
+app.use(middleware.handle(i18next, {}));
 
 // Add user info to all views
 app.use(addUserToViews);

@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="<%= currentLanguage %>">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gestión de Pagos - Patitas Móviles</title>
+  <title><%= t('payments.title') %> - Patitas Móviles</title>
   <link rel="stylesheet" href="/stylesheets/style.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -58,6 +58,88 @@
       color: white;
       text-decoration: none;
       transform: translateX(-5px);
+    }
+    
+    .top-navigation {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      right: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+    }
+    
+    .language-selector {
+      position: relative;
+      display: inline-block;
+    }
+    
+    .language-btn {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      color: white;
+      padding: 0.75rem 1rem;
+      border-radius: 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+    }
+    
+    .language-btn:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: translateY(-2px);
+    }
+    
+    .language-dropdown {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      margin-top: 0.5rem;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-10px);
+      transition: all 0.3s ease;
+      z-index: 1000;
+      min-width: 120px;
+    }
+    
+    .language-selector:hover .language-dropdown {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+    
+    .language-option {
+      display: block;
+      padding: 0.75rem 1rem;
+      color: #333;
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: background-color 0.2s ease;
+    }
+    
+    .language-option:first-child {
+      border-radius: 10px 10px 0 0;
+    }
+    
+    .language-option:last-child {
+      border-radius: 0 0 10px 10px;
+    }
+    
+    .language-option:hover {
+      background-color: #f8f9fa;
+      text-decoration: none;
+      color: #333;
     }
     
     .payments-stats {
@@ -273,52 +355,67 @@
 </head>
 <body>
   <div class="payments-container">
-    <a href="/admin" class="back-btn">
-      <i class="fas fa-arrow-left"></i>
-      Volver al Admin
-    </a>
+    <div class="top-navigation">
+      <a href="/admin" class="back-btn">
+        <i class="fas fa-arrow-left"></i>
+        <%= t('payments.backToAdmin') %>
+      </a>
+      
+      <!-- Language Selector -->
+      <div class="language-selector">
+        <button class="language-btn">
+          <i class="fas fa-globe"></i>
+          <span><%= currentLanguage === 'es' ? 'ES' : 'EN' %></span>
+          <i class="fas fa-chevron-down"></i>
+        </button>
+        <div class="language-dropdown">
+          <a href="/language/change/es" class="language-option">🇪🇸 Español</a>
+          <a href="/language/change/en" class="language-option">🇺🇸 English</a>
+        </div>
+      </div>
+    </div>
     
     <div class="payments-header">
-      <h1><i class="fas fa-credit-card"></i> Gestión de Pagos</h1>
-      <p>Monitorea y administra todas las transacciones de pago</p>
+      <h1><i class="fas fa-credit-card"></i> <%= t('payments.title') %></h1>
+      <p><%= t('payments.subtitle') %></p>
     </div>
     
     <div class="payments-stats">
       <div class="stat-card">
         <div class="stat-number" id="totalPayments">0</div>
-        <div class="stat-label">Total Pagos</div>
+        <div class="stat-label"><%= t('payments.stats.totalPayments') %></div>
       </div>
       <div class="stat-card">
         <div class="stat-number" id="approvedPayments">0</div>
-        <div class="stat-label">Aprobados</div>
+        <div class="stat-label"><%= t('payments.stats.approved') %></div>
       </div>
       <div class="stat-card">
         <div class="stat-number" id="totalAmount">$0</div>
-        <div class="stat-label">Monto Total</div>
+        <div class="stat-label"><%= t('payments.stats.totalAmount') %></div>
       </div>
       <div class="stat-card">
         <div class="stat-number" id="successRate">0%</div>
-        <div class="stat-label">Tasa de Éxito</div>
+        <div class="stat-label"><%= t('payments.stats.successRate') %></div>
       </div>
     </div>
     
     <div class="payments-table-container">
       <div class="table-header">
-        <h2>Historial de Pagos</h2>
+        <h2><%= t('payments.historyTitle') %></h2>
         <div class="search-box">
           <i class="fas fa-search"></i>
-          <input type="text" id="searchInput" placeholder="Buscar pagos por email, servicio, monto...">
+          <input type="text" id="searchInput" placeholder="<%= t('payments.searchPlaceholder') %>">
         </div>
         <button class="refresh-btn" onclick="loadPayments()">
           <i class="fas fa-sync-alt"></i>
-          Actualizar
+          <%= t('payments.refresh') %>
         </button>
       </div>
       
       <div id="paymentsContent">
         <div class="loading">
           <i class="fas fa-spinner"></i>
-          <p>Cargando pagos...</p>
+          <p><%= t('payments.loading') %></p>
         </div>
       </div>
     </div>
@@ -366,7 +463,7 @@
       contentDiv.innerHTML = `
         <div class="loading">
           <i class="fas fa-spinner"></i>
-          <p>Cargando pagos...</p>
+          <p><%= t('payments.loading') %></p>
         </div>
       `;
       
@@ -400,14 +497,14 @@
         <table class="payments-table">
           <thead>
             <tr>
-              <th>ID Transacción</th>
-              <th>Servicio</th>
-              <th>Monto</th>
-              <th>Moneda</th>
-              <th>Email</th>
-              <th>Titular</th>
-              <th>Estado</th>
-              <th>Fecha</th>
+              <th><%= t('payments.table.transactionId') %></th>
+              <th><%= t('payments.table.service') %></th>
+              <th><%= t('payments.table.amount') %></th>
+              <th><%= t('payments.table.currency') %></th>
+              <th><%= t('payments.table.email') %></th>
+              <th><%= t('payments.table.cardHolder') %></th>
+              <th><%= t('payments.table.status') %></th>
+              <th><%= t('payments.table.date') %></th>
             </tr>
           </thead>
           <tbody>
@@ -456,23 +553,26 @@
     
     function getStatusText(status) {
       switch(status) {
-        case 'APPROVED': return 'Aprobado';
-        case 'REJECTED': return 'Rechazado';
-        case 'ERROR': return 'Error';
-        case 'INSUFFICIENT': return 'Fondos Insuf.';
-        default: return 'Desconocido';
+        case 'APPROVED': return '<%= t("payments.status.approved") %>';
+        case 'REJECTED': return '<%= t("payments.status.rejected") %>';
+        case 'ERROR': return '<%= t("payments.status.error") %>';
+        case 'INSUFFICIENT': return '<%= t("payments.status.insufficient") %>';
+        default: return '<%= t("payments.status.unknown") %>';
       }
     }
     
     function formatDate(dateString) {
       const date = new Date(dateString);
-      return date.toLocaleDateString('es-ES', {
+      const locale = '<%= currentLanguage === "en" ? "en-US" : "es-ES" %>';
+      const options = {
         year: 'numeric',
         month: 'short',
         day: 'numeric',
         hour: '2-digit',
         minute: '2-digit'
-      });
+        <% if (currentLanguage === 'en') { %>, hour12: true<% } %>
+      };
+      return date.toLocaleDateString(locale, options);
     }
     
     function showNoData() {
@@ -480,7 +580,7 @@
       contentDiv.innerHTML = `
         <div class="no-data">
           <i class="fas fa-inbox"></i>
-          <p>No hay pagos registrados aún</p>
+          <p><%= t('payments.noPayments') %></p>
         </div>
       `;
     }
@@ -490,10 +590,10 @@
       contentDiv.innerHTML = `
         <div class="no-data">
           <i class="fas fa-exclamation-triangle"></i>
-          <p>Error al cargar los pagos</p>
+          <p><%= t('payments.loadError') %></p>
           <button class="refresh-btn" onclick="loadPayments()" style="margin-top: 1rem;">
             <i class="fas fa-retry"></i>
-            Reintentar
+            <%= t('payments.retry') %>
           </button>
         </div>
       `;

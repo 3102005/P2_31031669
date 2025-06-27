@@ -7,8 +7,7 @@ import session from 'express-session';
 import flash from 'connect-flash';
 import passport from './config/passport';
 import dotenv from 'dotenv';
-import i18next from './services/I18nService';
-import i18nextMiddleware from 'i18next-http-middleware';
+import i18next, { middleware as i18nextMiddleware } from './services/I18nService';
 
 // Load environment variables
 dotenv.config();

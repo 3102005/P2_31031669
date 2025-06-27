@@ -33,12 +33,12 @@ app.use(express.static(path.join(__dirname, '../public')));
 app.use(session({
   secret: process.env.SESSION_SECRET || 'patitas-moviles-secret-key-2024',
   resave: false,
-  saveUninitialized: false,
+  saveUninitialized: true, // Enable for OAuth
   rolling: true, // Reset expiration on activity
   cookie: {
-    secure: false, // Temporarily disable for debugging
+    secure: process.env.NODE_ENV === 'production', // HTTPS in production
     httpOnly: true, // Prevent XSS attacks
-    sameSite: 'none', // More permissive for OAuth in production
+    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', // Conditional sameSite
     maxAge: 15 * 60 * 1000 // 15 minutes inactivity timeout
   }
 }));

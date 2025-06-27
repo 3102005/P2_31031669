@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="<%= currentLanguage %>">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,7 +12,7 @@
   <meta property="og:url" content="<%= typeof url !== 'undefined' ? url : 'https://patitas-moviles.com' %>">
   <meta property="og:image" content="<%= typeof ogImage !== 'undefined' ? ogImage : 'https://patitas-moviles.com/images/og-image.jpg' %>">
   <meta property="og:site_name" content="Patitas Móviles">
-  <meta property="og:locale" content="es_ES">
+  <meta property="og:locale" content="<%= currentLanguage === 'es' ? 'es_ES' : 'en_US' %>">
   
   <!-- Twitter Card Meta Tags -->
   <meta name="twitter:card" content="summary_large_image">
@@ -328,6 +328,21 @@
   <script src="https://www.google.com/recaptcha/api.js" async defer></script>
   <% } %>
   
+  <!-- Translations for JavaScript -->
+  <script>
+    window.translations = {
+      modal: {
+        paymentSuccess: '<%= t("modal.paymentSuccess") %>',
+        processingPayment: '<%= t("modal.processingPayment") %>',
+        hideTestData: '<%= t("modal.hideTestData") %>',
+        fillTestData: '<%= t("modal.fillTestData") %>',
+        paymentProcessedSuccessfully: '<%= t("modal.paymentProcessedSuccessfully") %>',
+        paymentProcessingError: '<%= t("modal.paymentProcessingError") %>',
+        connectionError: '<%= t("modal.connectionError") %>'
+      }
+    };
+  </script>
+  
   <!-- Custom JavaScript Files -->
   <script src="/js/main.js"></script>
   <script src="/js/contact.js"></script>
@@ -343,17 +358,29 @@
           <span>Patitas Móviles</span>
         </div>
         <ul class="hidden md:flex space-x-8">
-          <li><a href="#inicio" class="text-gray-700 hover:text-vet-primary transition-colors duration-300 font-medium">Inicio</a></li>
-          <li><a href="#servicios" class="text-gray-700 hover:text-vet-primary transition-colors duration-300 font-medium">Servicios</a></li>
-          <li><a href="#galeria" class="text-gray-700 hover:text-vet-primary transition-colors duration-300 font-medium">Galería</a></li>
-          <li><a href="#nosotros" class="text-gray-700 hover:text-vet-primary transition-colors duration-300 font-medium">Nosotros</a></li>
+          <li><a href="#inicio" class="text-gray-700 hover:text-vet-primary transition-colors duration-300 font-medium"><%= t('nav.home') %></a></li>
+          <li><a href="#servicios" class="text-gray-700 hover:text-vet-primary transition-colors duration-300 font-medium"><%= t('nav.services') %></a></li>
+          <li><a href="#galeria" class="text-gray-700 hover:text-vet-primary transition-colors duration-300 font-medium"><%= t('nav.gallery') %></a></li>
+          <li><a href="#nosotros" class="text-gray-700 hover:text-vet-primary transition-colors duration-300 font-medium"><%= t('nav.about') %></a></li>
           <% if (isAuthenticated) { %>
-            <li><a href="/admin" class="text-gray-700 hover:text-vet-primary transition-colors duration-300 font-medium">Admin</a></li>
-            <li><a href="/auth/logout" class="text-red-600 hover:text-red-700 transition-colors duration-300 font-medium">Cerrar Sesión</a></li>
+            <li><a href="/admin" class="text-gray-700 hover:text-vet-primary transition-colors duration-300 font-medium"><%= t('nav.admin') %></a></li>
+            <li><a href="/auth/logout" class="text-red-600 hover:text-red-700 transition-colors duration-300 font-medium"><%= t('nav.logout') %></a></li>
           <% } else { %>
-            <li><a href="/auth/login" class="text-gray-700 hover:text-vet-primary transition-colors duration-300 font-medium">Login Admin</a></li>
+            <li><a href="/auth/login" class="text-gray-700 hover:text-vet-primary transition-colors duration-300 font-medium"><%= t('nav.login') %></a></li>
           <% } %>
-          <li><a href="#cita" class="bg-gradient-to-r from-vet-primary to-vet-secondary text-white px-4 py-2 rounded-lg hover:shadow-lg transition-all duration-300 font-medium">Agendar Cita</a></li>
+          <!-- Language Selector -->
+          <li class="relative group">
+            <button class="text-gray-700 hover:text-vet-primary transition-colors duration-300 font-medium flex items-center space-x-1">
+              <i class="fas fa-globe"></i>
+              <span><%= currentLanguage === 'es' ? 'ES' : 'EN' %></span>
+              <i class="fas fa-chevron-down text-xs"></i>
+            </button>
+            <div class="absolute right-0 mt-2 w-32 bg-white rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
+              <a href="/language/change/es" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-t-md">🇪🇸 Español</a>
+              <a href="/language/change/en" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-b-md">🇺🇸 English</a>
+            </div>
+          </li>
+          <li><a href="#cita" class="bg-gradient-to-r from-vet-primary to-vet-secondary text-white px-4 py-2 rounded-lg hover:shadow-lg transition-all duration-300 font-medium"><%= t('nav.schedule') %></a></li>
         </ul>
         <div class="md:hidden flex flex-col space-y-1 cursor-pointer" id="hamburger">
           <span class="w-6 h-0.5 bg-gray-700 transition-all duration-300"></span>
@@ -364,17 +391,23 @@
       <!-- Mobile Menu -->
       <div class="md:hidden hidden bg-white border-t border-gray-200" id="mobile-menu">
         <div class="px-4 py-2 space-y-1">
-          <a href="#inicio" class="block px-3 py-2 text-gray-700 hover:text-vet-primary hover:bg-gray-50 rounded-md transition-colors duration-300 font-medium">Inicio</a>
-          <a href="#servicios" class="block px-3 py-2 text-gray-700 hover:text-vet-primary hover:bg-gray-50 rounded-md transition-colors duration-300 font-medium">Servicios</a>
-          <a href="#galeria" class="block px-3 py-2 text-gray-700 hover:text-vet-primary hover:bg-gray-50 rounded-md transition-colors duration-300 font-medium">Galería</a>
-          <a href="#nosotros" class="block px-3 py-2 text-gray-700 hover:text-vet-primary hover:bg-gray-50 rounded-md transition-colors duration-300 font-medium">Nosotros</a>
+          <a href="#inicio" class="block px-3 py-2 text-gray-700 hover:text-vet-primary hover:bg-gray-50 rounded-md transition-colors duration-300 font-medium"><%= t('nav.home') %></a>
+          <a href="#servicios" class="block px-3 py-2 text-gray-700 hover:text-vet-primary hover:bg-gray-50 rounded-md transition-colors duration-300 font-medium"><%= t('nav.services') %></a>
+          <a href="#galeria" class="block px-3 py-2 text-gray-700 hover:text-vet-primary hover:bg-gray-50 rounded-md transition-colors duration-300 font-medium"><%= t('nav.gallery') %></a>
+          <a href="#nosotros" class="block px-3 py-2 text-gray-700 hover:text-vet-primary hover:bg-gray-50 rounded-md transition-colors duration-300 font-medium"><%= t('nav.about') %></a>
           <% if (isAuthenticated) { %>
-            <a href="/admin" class="block px-3 py-2 text-gray-700 hover:text-vet-primary hover:bg-gray-50 rounded-md transition-colors duration-300 font-medium">Admin</a>
-            <a href="/auth/logout" class="block px-3 py-2 text-red-600 hover:text-red-700 hover:bg-red-50 rounded-md transition-colors duration-300 font-medium">Cerrar Sesión</a>
+            <a href="/admin" class="block px-3 py-2 text-gray-700 hover:text-vet-primary hover:bg-gray-50 rounded-md transition-colors duration-300 font-medium"><%= t('nav.admin') %></a>
+            <a href="/auth/logout" class="block px-3 py-2 text-red-600 hover:text-red-700 hover:bg-red-50 rounded-md transition-colors duration-300 font-medium"><%= t('nav.logout') %></a>
           <% } else { %>
-            <a href="/auth/login" class="block px-3 py-2 text-gray-700 hover:text-vet-primary hover:bg-gray-50 rounded-md transition-colors duration-300 font-medium">Login Admin</a>
+            <a href="/auth/login" class="block px-3 py-2 text-gray-700 hover:text-vet-primary hover:bg-gray-50 rounded-md transition-colors duration-300 font-medium"><%= t('nav.login') %></a>
           <% } %>
-          <a href="#cita" class="block mx-3 my-2 px-4 py-2 bg-gradient-to-r from-vet-primary to-vet-secondary text-white rounded-lg hover:shadow-lg transition-all duration-300 font-medium text-center">Agendar Cita</a>
+          <!-- Mobile Language Selector -->
+          <div class="border-t border-gray-200 pt-2 mt-2">
+            <p class="px-3 py-1 text-xs font-semibold text-gray-500 uppercase tracking-wider"><%= t('language.select') %></p>
+            <a href="/language/change/es" class="block px-3 py-2 text-gray-700 hover:text-vet-primary hover:bg-gray-50 rounded-md transition-colors duration-300 font-medium">🇪🇸 Español</a>
+            <a href="/language/change/en" class="block px-3 py-2 text-gray-700 hover:text-vet-primary hover:bg-gray-50 rounded-md transition-colors duration-300 font-medium">🇺🇸 English</a>
+          </div>
+          <a href="#cita" class="block mx-3 my-2 px-4 py-2 bg-gradient-to-r from-vet-primary to-vet-secondary text-white rounded-lg hover:shadow-lg transition-all duration-300 font-medium text-center"><%= t('nav.schedule') %></a>
         </div>
       </div>
     </div>
@@ -386,21 +419,20 @@
       <div class="grid lg:grid-cols-2 gap-12 items-center">
         <div class="space-y-8">
           <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
-            Cuidado veterinario
-            <span class="bg-gradient-to-r from-vet-primary to-vet-secondary bg-clip-text text-transparent">en la comodidad de tu hogar</span>
+            <%= t('hero.title') %>
+            <span class="bg-gradient-to-r from-vet-primary to-vet-secondary bg-clip-text text-transparent"><%= t('hero.titleHighlight') %></span>
           </h1>
           <p class="text-xl text-gray-600 leading-relaxed">
-            Brindamos atención médica profesional para tus mascotas sin el estrés del traslado.
-            Tu compañero peludo se sentirá seguro y cómodo en casa.
+            <%= t('hero.description') %>
           </p>
           <div class="flex flex-col sm:flex-row gap-4">
-            <a href="#cita" class="bg-gradient-to-r from-vet-primary to-vet-secondary text-white px-8 py-4 rounded-xl font-semibold hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 flex items-center justify-center space-x-2">
+            <a href="#contacto" class="bg-gradient-to-r from-vet-primary to-vet-secondary text-white px-8 py-4 rounded-xl font-semibold hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 flex items-center justify-center space-x-2">
               <i class="fas fa-calendar-plus"></i>
-              <span>Agendar Consulta</span>
+              <span><%= t('hero.scheduleConsultation') %></span>
             </a>
             <a href="#servicios" class="border-2 border-vet-primary text-vet-primary px-8 py-4 rounded-xl font-semibold hover:bg-vet-primary hover:text-white transition-all duration-300 flex items-center justify-center space-x-2">
               <i class="fas fa-info-circle"></i>
-              <span>Ver Servicios</span>
+              <span><%= t('hero.viewServices') %></span>
             </a>
           </div>
         </div>
@@ -411,7 +443,7 @@
               <div class="bg-green-100 p-2 rounded-lg">
                 <i class="fas fa-shield-alt text-green-600"></i>
               </div>
-              <span class="font-semibold text-gray-800">Cuidado profesional</span>
+              <span class="font-semibold text-gray-800"><%= t('hero.professionalCare') %></span>
             </div>
           </div>
         </div>
@@ -423,56 +455,56 @@
   <section id="servicios" class="py-20 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="text-center mb-16">
-        <h2 class="text-4xl font-bold text-gray-900 mb-4">Nuestros Servicios</h2>
-        <p class="text-xl text-gray-600">Atención integral para el bienestar de tu mascota</p>
+        <h2 class="text-4xl font-bold text-gray-900 mb-4"><%= t('services.title') %></h2>
+        <p class="text-xl text-gray-600"><%= t('services.subtitle') %></p>
       </div>
       <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
         <div class="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 p-8 border border-gray-100 group hover:-translate-y-2">
           <div class="bg-gradient-to-br from-vet-primary to-vet-secondary w-16 h-16 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
             <i class="fas fa-stethoscope text-white text-2xl"></i>
           </div>
-          <h3 class="text-xl font-bold text-gray-900 mb-4">Consulta General</h3>
-          <p class="text-gray-600 mb-6">Examen completo de salud, diagnóstico y tratamiento básico en la comodidad de tu hogar.</p>
-          <div class="text-2xl font-bold text-vet-primary mb-6">Desde $25</div>
-          <button class="w-full bg-gradient-to-r from-vet-primary to-vet-secondary text-white py-3 px-6 rounded-xl font-semibold hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300 flex items-center justify-center space-x-2" onclick="openPaymentModal('Consulta General', 25)">
+          <h3 class="text-xl font-bold text-gray-900 mb-4"><%= t('services.general.name') %></h3>
+          <p class="text-gray-600 mb-6"><%= t('services.general.description') %></p>
+          <div class="text-2xl font-bold text-vet-primary mb-6"><%= t('services.general.price') %> <% if (currentLanguage === 'es') { %>VES 1.500,00 Bs<% } else { %>USD $15.00<% } %></div>
+          <button class="w-full bg-gradient-to-r from-vet-primary to-vet-secondary text-white py-3 px-6 rounded-xl font-semibold hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300 flex items-center justify-center space-x-2" onclick="openPaymentModal('<%= t('services.general.name') %>', <% if (currentLanguage === 'es') { %>1500<% } else { %>15<% } %>)">
             <i class="fas fa-calendar-check"></i>
-            <span>Solicitar Servicio</span>
+            <span><%= t('services.requestService') %></span>
           </button>
         </div>
         <div class="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 p-8 border border-gray-100 group hover:-translate-y-2">
           <div class="bg-gradient-to-br from-green-500 to-emerald-600 w-16 h-16 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
             <i class="fas fa-syringe text-white text-2xl"></i>
           </div>
-          <h3 class="text-xl font-bold text-gray-900 mb-4">Vacunación</h3>
-          <p class="text-gray-600 mb-6">Programa completo de vacunas para mantener a tu mascota protegida contra enfermedades.</p>
-          <div class="text-2xl font-bold text-green-600 mb-6">Desde $15</div>
-          <button class="w-full bg-gradient-to-r from-green-500 to-emerald-600 text-white py-3 px-6 rounded-xl font-semibold hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300 flex items-center justify-center space-x-2" onclick="openPaymentModal('Vacunación', 15)">
+          <h3 class="text-xl font-bold text-gray-900 mb-4"><%= t('services.vaccination.name') %></h3>
+          <p class="text-gray-600 mb-6"><%= t('services.vaccination.description') %></p>
+          <div class="text-2xl font-bold text-green-600 mb-6"><%= t('services.vaccination.price') %> <% if (currentLanguage === 'es') { %>VES 900,00 Bs<% } else { %>USD $9.00<% } %></div>
+          <button class="w-full bg-gradient-to-r from-green-500 to-emerald-600 text-white py-3 px-6 rounded-xl font-semibold hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300 flex items-center justify-center space-x-2" onclick="openPaymentModal('<%= t('services.vaccination.name') %>', <% if (currentLanguage === 'es') { %>900<% } else { %>9<% } %>)">
             <i class="fas fa-calendar-check"></i>
-            <span>Solicitar Servicio</span>
+            <span><%= t('services.requestService') %></span>
           </button>
         </div>
         <div class="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 p-8 border border-gray-100 group hover:-translate-y-2">
           <div class="bg-gradient-to-br from-pink-500 to-rose-600 w-16 h-16 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
             <i class="fas fa-cut text-white text-2xl"></i>
           </div>
-          <h3 class="text-xl font-bold text-gray-900 mb-4">Grooming</h3>
-          <p class="text-gray-600 mb-6">Servicio de aseo y cuidado estético para que tu mascota luzca y se sienta mejor.</p>
-          <div class="text-2xl font-bold text-pink-600 mb-6">Desde $20</div>
-          <button class="w-full bg-gradient-to-r from-pink-500 to-rose-600 text-white py-3 px-6 rounded-xl font-semibold hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300 flex items-center justify-center space-x-2" onclick="openPaymentModal('Grooming', 20)">
+          <h3 class="text-xl font-bold text-gray-900 mb-4"><%= t('services.grooming.name') %></h3>
+          <p class="text-gray-600 mb-6"><%= t('services.grooming.description') %></p>
+          <div class="text-2xl font-bold text-pink-600 mb-6"><%= t('services.grooming.price') %> <% if (currentLanguage === 'es') { %>VES 1.200,00 Bs<% } else { %>USD $12.00<% } %></div>
+          <button class="w-full bg-gradient-to-r from-pink-500 to-rose-600 text-white py-3 px-6 rounded-xl font-semibold hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300 flex items-center justify-center space-x-2" onclick="openPaymentModal('<%= t('services.grooming.name') %>', <% if (currentLanguage === 'es') { %>1200<% } else { %>12<% } %>)">
             <i class="fas fa-calendar-check"></i>
-            <span>Solicitar Servicio</span>
+            <span><%= t('services.requestService') %></span>
           </button>
         </div>
         <div class="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 p-8 border border-gray-100 group hover:-translate-y-2">
           <div class="bg-gradient-to-br from-orange-500 to-amber-600 w-16 h-16 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
             <i class="fas fa-pills text-white text-2xl"></i>
           </div>
-          <h3 class="text-xl font-bold text-gray-900 mb-4">Tratamientos</h3>
-          <p class="text-gray-600 mb-6">Administración de medicamentos y seguimiento de tratamientos médicos especializados.</p>
-          <div class="text-2xl font-bold text-orange-600 mb-6">Desde $30</div>
-          <button class="w-full bg-gradient-to-r from-orange-500 to-amber-600 text-white py-3 px-6 rounded-xl font-semibold hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300 flex items-center justify-center space-x-2" onclick="openPaymentModal('Tratamientos', 30)">
+          <h3 class="text-xl font-bold text-gray-900 mb-4"><%= t('services.treatments.name') %></h3>
+          <p class="text-gray-600 mb-6"><%= t('services.treatments.description') %></p>
+          <div class="text-2xl font-bold text-orange-600 mb-6"><%= t('services.treatments.price') %> <% if (currentLanguage === 'es') { %>VES 1.800,00 Bs<% } else { %>USD $18.00<% } %></div>
+          <button class="w-full bg-gradient-to-r from-orange-500 to-amber-600 text-white py-3 px-6 rounded-xl font-semibold hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300 flex items-center justify-center space-x-2" onclick="openPaymentModal('<%= t('services.treatments.name') %>', <% if (currentLanguage === 'es') { %>1800<% } else { %>18<% } %>)">
             <i class="fas fa-calendar-check"></i>
-            <span>Solicitar Servicio</span>
+            <span><%= t('services.requestService') %></span>
           </button>
         </div>
       </div>
@@ -487,7 +519,7 @@
         <div class="flex justify-between items-center">
           <h3 class="text-xl font-bold flex items-center space-x-2">
             <i class="fas fa-credit-card"></i>
-            <span>Procesar Pago</span>
+            <span><%= t('payment.processPayment') %></span>
           </h3>
           <button class="text-white hover:bg-white hover:bg-opacity-20 p-2 rounded-full transition-all duration-300" onclick="closePaymentModal()">
             <i class="fas fa-times text-lg"></i>
@@ -496,15 +528,15 @@
       </div>
       <div class="p-6">
         <div class="bg-gradient-to-r from-vet-accent to-vet-pink text-white p-4 rounded-xl mb-6 text-center">
-          <h4 id="modalServiceName" class="text-lg font-semibold mb-2">Servicio Seleccionado</h4>
-          <p class="text-lg">Monto: <span id="modalServiceAmount" class="font-bold">$0</span></p>
+          <h4 id="modalServiceName" class="text-lg font-semibold mb-2"><%= t('payment.selectedService') %></h4>
+          <p class="text-lg"><%= t('payment.amount') %>: <span id="modalServiceAmount" class="font-bold">$0</span></p>
         </div>
         
         <!-- Test Data Button -->
         <div class="mb-4">
           <button type="button" id="fillTestDataBtn" class="w-full bg-gradient-to-r from-blue-500 to-indigo-600 text-white py-2 px-4 rounded-lg hover:shadow-lg transition-all duration-300 font-medium flex items-center justify-center space-x-2">
             <i class="fas fa-flask"></i>
-            <span>Rellenar con Datos de Prueba</span>
+            <span><%= t('modal.fillTestData') %></span>
           </button>
           <div id="testDataInfo" class="mt-2 p-3 bg-blue-50 rounded-lg text-sm text-blue-800" style="display: none;">
             <p class="font-semibold mb-2">Tarjetas de Prueba Disponibles:</p>
@@ -524,7 +556,7 @@
           <input type="hidden" id="modalAmount" name="amount">
           
           <div>
-            <label for="modalCurrency" class="block text-sm font-medium text-gray-700 mb-2">Moneda *</label>
+            <label for="modalCurrency" class="block text-sm font-medium text-gray-700 mb-2"><%= t('modal.currency') %></label>
             <select id="modalCurrency" name="currency" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-vet-primary focus:border-transparent transition-all duration-300">
               <option value="USD">USD - Dólar Estadounidense</option>
               <option value="EUR">EUR - Euro</option>
@@ -534,26 +566,26 @@
           </div>
           
           <div>
-            <label for="modalEmail" class="block text-sm font-medium text-gray-700 mb-2">Email *</label>
+            <label for="modalEmail" class="block text-sm font-medium text-gray-700 mb-2"><%= t('modal.email') %></label>
             <input type="email" id="modalEmail" name="email" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-vet-primary focus:border-transparent transition-all duration-300">
             <span class="text-red-500 text-sm mt-1 hidden"></span>
           </div>
           
           <div>
-            <label for="modalCardHolderName" class="block text-sm font-medium text-gray-700 mb-2">Nombre del Titular *</label>
+            <label for="modalCardHolderName" class="block text-sm font-medium text-gray-700 mb-2"><%= t('modal.cardHolderName') %></label>
             <input type="text" id="modalCardHolderName" name="cardHolderName" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-vet-primary focus:border-transparent transition-all duration-300">
             <span class="text-red-500 text-sm mt-1 hidden"></span>
           </div>
           
           <div>
-            <label for="modalCardNumber" class="block text-sm font-medium text-gray-700 mb-2">Número de Tarjeta *</label>
-            <input type="text" id="modalCardNumber" name="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-vet-primary focus:border-transparent transition-all duration-300">
+            <label for="modalCardNumber" class="block text-sm font-medium text-gray-700 mb-2"><%= t('modal.cardNumber') %></label>
+            <input type="text" id="modalCardNumber" name="cardNumber" placeholder="<%= t('modal.cardNumberPlaceholder') %>" maxlength="19" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-vet-primary focus:border-transparent transition-all duration-300">
             <span class="text-red-500 text-sm mt-1 hidden"></span>
           </div>
           
           <div class="grid grid-cols-3 gap-4">
             <div>
-              <label for="modalExpirationMonth" class="block text-sm font-medium text-gray-700 mb-2">Mes *</label>
+              <label for="modalExpirationMonth" class="block text-sm font-medium text-gray-700 mb-2"><%= t('modal.expirationMonth') %></label>
               <select id="modalExpirationMonth" name="expirationMonth" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-vet-primary focus:border-transparent transition-all duration-300">
                 <option value="">Mes</option>
                 <option value="01">01</option>
@@ -572,15 +604,15 @@
               <span class="text-red-500 text-sm mt-1 hidden"></span>
             </div>
             <div>
-              <label for="modalExpirationYear" class="block text-sm font-medium text-gray-700 mb-2">Año *</label>
+              <label for="modalExpirationYear" class="block text-sm font-medium text-gray-700 mb-2"><%= t('modal.expirationYear') %></label>
               <select id="modalExpirationYear" name="expirationYear" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-vet-primary focus:border-transparent transition-all duration-300">
                 <option value="">Año</option>
               </select>
               <span class="text-red-500 text-sm mt-1 hidden"></span>
             </div>
             <div>
-              <label for="modalCvv" class="block text-sm font-medium text-gray-700 mb-2">CVV *</label>
-              <input type="text" id="modalCvv" name="cvv" placeholder="123" maxlength="4" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-vet-primary focus:border-transparent transition-all duration-300">
+              <label for="modalCvv" class="block text-sm font-medium text-gray-700 mb-2"><%= t('modal.cvv') %></label>
+              <input type="text" id="modalCvv" name="cvv" placeholder="<%= t('modal.cvvPlaceholder') %>" maxlength="4" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-vet-primary focus:border-transparent transition-all duration-300">
               <span class="text-red-500 text-sm mt-1 hidden"></span>
             </div>
           </div>
@@ -589,17 +621,17 @@
             <div class="bg-green-100 p-2 rounded-lg">
               <i class="fas fa-shield-alt text-green-600"></i>
             </div>
-            <span class="text-sm text-gray-600">Tus datos están protegidos con encriptación SSL de 256 bits</span>
+            <span class="text-sm text-gray-600"><%= t('payment.sslProtection') %></span>
           </div>
           
           <div class="flex space-x-4 pt-4">
             <button type="button" class="flex-1 px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-all duration-300 font-medium" onclick="closePaymentModal()">
-              Cancelar
+              <%= t('modal.cancel') %>
             </button>
             <button type="submit" class="flex-1 bg-gradient-to-r from-vet-primary to-vet-secondary text-white px-6 py-3 rounded-lg hover:shadow-lg transition-all duration-300 font-medium" id="modalPaymentSubmitBtn">
               <span class="flex items-center justify-center space-x-2">
                 <i class="fas fa-credit-card"></i>
-                <span>Procesar Pago</span>
+                <span><%= t('modal.processPayment') %></span>
               </span>
               <div class="hidden items-center justify-center">
                 <i class="fas fa-spinner fa-spin"></i>
@@ -618,10 +650,9 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="grid lg:grid-cols-2 gap-16 items-center">
         <div class="space-y-8">
-          <h2 class="text-4xl font-bold text-gray-900 mb-6">¿Por qué elegir Patitas Móviles?</h2>
+          <h2 class="text-4xl font-bold text-gray-900 mb-6"><%= t('about.title') %></h2>
           <p class="text-xl text-gray-600 leading-relaxed">
-            Somos un equipo de veterinarios especializados en atención domiciliaria, 
-            comprometidos con el bienestar de tu mascota y tu tranquilidad.
+            <%= t('about.description') %>
           </p>
           <div class="space-y-6">
             <div class="flex items-start space-x-4">
@@ -629,8 +660,8 @@
                 <i class="fas fa-home text-blue-600 text-xl"></i>
               </div>
               <div>
-                <h4 class="text-lg font-semibold text-gray-900 mb-2">Comodidad total</h4>
-                <p class="text-gray-600">Tu mascota se mantiene en su ambiente familiar</p>
+                <h4 class="text-lg font-semibold text-gray-900 mb-2"><%= t('about.comfort.title') %></h4>
+                <p class="text-gray-600"><%= t('about.comfort.description') %></p>
               </div>
             </div>
             <div class="flex items-start space-x-4">
@@ -638,8 +669,8 @@
                 <i class="fas fa-clock text-green-600 text-xl"></i>
               </div>
               <div>
-                <h4 class="text-lg font-semibold text-gray-900 mb-2">Horarios flexibles</h4>
-                <p class="text-gray-600">Nos adaptamos a tu disponibilidad</p>
+                <h4 class="text-lg font-semibold text-gray-900 mb-2"><%= t('about.flexibility.title') %></h4>
+                <p class="text-gray-600"><%= t('about.flexibility.description') %></p>
               </div>
             </div>
             <div class="flex items-start space-x-4">
@@ -647,8 +678,8 @@
                 <i class="fas fa-shield-alt text-purple-600 text-xl"></i>
               </div>
               <div>
-                <h4 class="text-lg font-semibold text-gray-900 mb-2">Menos estrés</h4>
-                <p class="text-gray-600">Evitamos el trauma del transporte</p>
+                <h4 class="text-lg font-semibold text-gray-900 mb-2"><%= t('about.lessStress.title') %></h4>
+                <p class="text-gray-600"><%= t('about.lessStress.description') %></p>
               </div>
             </div>
             <div class="flex items-start space-x-4">
@@ -656,8 +687,8 @@
                 <i class="fas fa-user-md text-orange-600 text-xl"></i>
               </div>
               <div>
-                <h4 class="text-lg font-semibold text-gray-900 mb-2">Profesionales certificados</h4>
-                <p class="text-gray-600">Veterinarios con amplia experiencia</p>
+                <h4 class="text-lg font-semibold text-gray-900 mb-2"><%= t('about.professionals.title') %></h4>
+                <p class="text-gray-600"><%= t('about.professionals.description') %></p>
               </div>
             </div>
           </div>
@@ -665,19 +696,19 @@
         <div class="grid grid-cols-2 gap-6">
           <div class="bg-white p-6 rounded-2xl shadow-lg text-center hover:shadow-xl transition-all duration-300">
             <div class="text-4xl font-bold text-vet-primary mb-2">500+</div>
-            <div class="text-gray-600 font-medium">Mascotas atendidas</div>
+            <div class="text-gray-600 font-medium"><%= t('about.stats.petsAttended') %></div>
           </div>
           <div class="bg-white p-6 rounded-2xl shadow-lg text-center hover:shadow-xl transition-all duration-300">
             <div class="text-4xl font-bold text-green-600 mb-2">5</div>
-            <div class="text-gray-600 font-medium">Años de experiencia</div>
+            <div class="text-gray-600 font-medium"><%= t('about.stats.experience') %></div>
           </div>
           <div class="bg-white p-6 rounded-2xl shadow-lg text-center hover:shadow-xl transition-all duration-300">
             <div class="text-4xl font-bold text-orange-600 mb-2">24/7</div>
-            <div class="text-gray-600 font-medium">Emergencias</div>
+            <div class="text-gray-600 font-medium"><%= t('about.stats.emergencies') %></div>
           </div>
           <div class="bg-white p-6 rounded-2xl shadow-lg text-center hover:shadow-xl transition-all duration-300">
             <div class="text-4xl font-bold text-pink-600 mb-2">98%</div>
-            <div class="text-gray-600 font-medium">Satisfacción</div>
+            <div class="text-gray-600 font-medium"><%= t('about.stats.satisfaction') %></div>
           </div>
         </div>
       </div>
@@ -688,8 +719,8 @@
    <section id="galeria" class="py-20 bg-white">
      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
        <div class="text-center mb-16">
-         <h2 class="text-4xl font-bold text-gray-900 mb-4">Nuestros Pacientes Felices</h2>
-         <p class="text-xl text-gray-600">Conoce a algunas de las mascotas que hemos cuidado con amor</p>
+         <h2 class="text-4xl font-bold text-gray-900 mb-4"><%= t('gallery.title') %></h2>
+         <p class="text-xl text-gray-600"><%= t('gallery.subtitle') %></p>
        </div>
        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
          <div class="group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300">
@@ -754,8 +785,8 @@
   <section id="contacto" class="py-20 bg-gray-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="text-center mb-16">
-        <h2 class="text-4xl font-bold text-gray-900 mb-4">¿Listo para cuidar a tu mascota?</h2>
-        <p class="text-xl text-gray-600">Contáctanos y agenda tu cita hoy mismo</p>
+        <h2 class="text-4xl font-bold text-gray-900 mb-4"><%= t('contact.readyToTakeCare') %></h2>
+        <p class="text-xl text-gray-600"><%= t('contact.callToAction') %></p>
       </div>
       <div class="grid lg:grid-cols-2 gap-12">
         <div class="space-y-8">
@@ -768,7 +799,7 @@
                   </div>
                 </div>
                 <div>
-                  <h4 class="text-lg font-semibold text-gray-900 mb-1">Teléfono</h4>
+                  <h4 class="text-lg font-semibold text-gray-900 mb-1"><%= t('contact.info.phone') %></h4>
                   <p class="text-gray-600">+58 424-123-4567</p>
                 </div>
               </div>
@@ -779,7 +810,7 @@
                   </div>
                 </div>
                 <div>
-                  <h4 class="text-lg font-semibold text-gray-900 mb-1">Email</h4>
+                  <h4 class="text-lg font-semibold text-gray-900 mb-1"><%= t('contact.info.email') %></h4>
                   <p class="text-gray-600">info@patitasmoviles.com</p>
                 </div>
               </div>
@@ -790,8 +821,8 @@
                   </div>
                 </div>
                 <div>
-                  <h4 class="text-lg font-semibold text-gray-900 mb-1">Cobertura</h4>
-                  <p class="text-gray-600">Caracas y área metropolitana</p>
+                  <h4 class="text-lg font-semibold text-gray-900 mb-1"><%= t('contact.info.coverage') %></h4>
+                  <p class="text-gray-600"><%= t('contact.info.coverageArea') %></p>
                 </div>
               </div>
               <div class="flex items-start space-x-4">
@@ -801,8 +832,8 @@
                   </div>
                 </div>
                 <div>
-                  <h4 class="text-lg font-semibold text-gray-900 mb-1">Horarios</h4>
-                  <p class="text-gray-600">Lun - Dom: 8:00 AM - 8:00 PM</p>
+                  <h4 class="text-lg font-semibold text-gray-900 mb-1"><%= t('contact.info.schedule') %></h4>
+                  <p class="text-gray-600"><%= t('contact.info.scheduleTime') %></p>
                 </div>
               </div>
             </div>
@@ -814,33 +845,33 @@
           <div class="mb-6">
             <h3 class="text-2xl font-bold text-gray-900 mb-2 flex items-center">
               <i class="fas fa-paper-plane text-vet-primary mr-3"></i> 
-              Envíanos un mensaje
+              <%= t('contact.form.title') %>
             </h3>
-            <p class="text-gray-600">Completa el formulario y nos pondremos en contacto contigo</p>
+            <p class="text-gray-600"><%= t('contact.form.subtitle') %></p>
           </div>
           
           <form id="contactForm" class="space-y-6">
             <div>
-              <label for="nombre" class="block text-sm font-medium text-gray-700 mb-2">Nombre completo *</label>
+              <label for="nombre" class="block text-sm font-medium text-gray-700 mb-2"><%= t('contact.form.fullName') %> *</label>
               <input type="text" id="nombre" name="nombre" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-vet-primary focus:border-transparent transition-colors">
               <span class="text-red-500 text-sm mt-1 hidden" id="nombre-error"></span>
             </div>
             
             <div>
-              <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Correo electrónico *</label>
+              <label for="email" class="block text-sm font-medium text-gray-700 mb-2"><%= t('contact.form.email') %> *</label>
               <input type="email" id="email" name="email" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-vet-primary focus:border-transparent transition-colors">
               <span class="text-red-500 text-sm mt-1 hidden" id="email-error"></span>
             </div>
             
             <div>
-              <label for="telefono" class="block text-sm font-medium text-gray-700 mb-2">Teléfono (opcional)</label>
-              <input type="tel" id="telefono" name="telefono" placeholder="+58 424-123-4567" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-vet-primary focus:border-transparent transition-colors">
+              <label for="telefono" class="block text-sm font-medium text-gray-700 mb-2"><%= t('contact.form.phone') %></label>
+              <input type="tel" id="telefono" name="telefono" placeholder="<%= t('contact.form.phonePlaceholder') %>" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-vet-primary focus:border-transparent transition-colors">
               <span class="text-red-500 text-sm mt-1 hidden" id="telefono-error"></span>
             </div>
             
             <div>
-              <label for="mensaje" class="block text-sm font-medium text-gray-700 mb-2">Mensaje *</label>
-              <textarea id="mensaje" name="mensaje" rows="4" required placeholder="Cuéntanos sobre tu mascota y qué servicio necesitas..." class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-vet-primary focus:border-transparent transition-colors resize-none"></textarea>
+              <label for="mensaje" class="block text-sm font-medium text-gray-700 mb-2"><%= t('contact.form.message') %> *</label>
+              <textarea id="mensaje" name="mensaje" rows="4" required placeholder="<%= t('contact.form.messagePlaceholder') %>" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-vet-primary focus:border-transparent transition-colors resize-none"></textarea>
               <span class="text-red-500 text-sm mt-1 hidden" id="mensaje-error"></span>
             </div>
             
@@ -855,7 +886,7 @@
             <div>
               <button type="submit" class="w-full bg-vet-primary hover:bg-vet-secondary text-white font-semibold py-4 px-6 rounded-lg transition-all duration-300 flex items-center justify-center space-x-2 group" id="submitBtn">
                 <i class="fas fa-paper-plane group-hover:translate-x-1 transition-transform"></i>
-                <span>Enviar mensaje</span>
+                <span><%= t('contact.form.sendMessage') %></span>
                 <div class="loading-spinner hidden">
                   <i class="fas fa-spinner fa-spin"></i>
                 </div>
@@ -879,7 +910,7 @@
             <i class="fas fa-paw text-vet-primary text-2xl mr-3"></i>
             <span class="text-2xl font-bold">Patitas Móviles</span>
           </div>
-          <p class="text-gray-300 mb-6 max-w-md">Cuidando a tu mascota con amor y profesionalismo desde la comodidad de tu hogar.</p>
+          <p class="text-gray-300 mb-6 max-w-md"><%= t('footer.tagline') %></p>
           <div class="flex space-x-4">
             <a href="#" aria-label="Facebook" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-vet-primary transition-colors">
               <i class="fab fa-facebook"></i>
@@ -898,27 +929,38 @@
         <div>
           <h4 class="text-lg font-semibold mb-4">Servicios</h4>
           <ul class="space-y-2">
-            <li><a href="#" class="text-gray-300 hover:text-vet-primary transition-colors">Consulta General</a></li>
-            <li><a href="#" class="text-gray-300 hover:text-vet-primary transition-colors">Vacunación</a></li>
-            <li><a href="#" class="text-gray-300 hover:text-vet-primary transition-colors">Grooming</a></li>
-            <li><a href="#" class="text-gray-300 hover:text-vet-primary transition-colors">Emergencias</a></li>
+            <li><a href="#" class="text-gray-300 hover:text-vet-primary transition-colors"><%= t('services.consultation.name') %></a></li>
+            <li><a href="#" class="text-gray-300 hover:text-vet-primary transition-colors"><%= t('services.vaccination.name') %></a></li>
+            <li><a href="#" class="text-gray-300 hover:text-vet-primary transition-colors"><%= t('services.grooming.name') %></a></li>
+            <li><a href="#" class="text-gray-300 hover:text-vet-primary transition-colors"><%= t('footer.emergencies') %></a></li>
           </ul>
         </div>
         <div>
-          <h4 class="text-lg font-semibold mb-4">Información</h4>
+          <h4 class="text-lg font-semibold mb-4"><%= t('footer.information') %></h4>
           <ul class="space-y-2">
-            <li><a href="#" class="text-gray-300 hover:text-vet-primary transition-colors">Sobre Nosotros</a></li>
-            <li><a href="#" class="text-gray-300 hover:text-vet-primary transition-colors">Preguntas Frecuentes</a></li>
-            <li><a href="#" class="text-gray-300 hover:text-vet-primary transition-colors">Términos y Condiciones</a></li>
-            <li><a href="#" class="text-gray-300 hover:text-vet-primary transition-colors">Política de Privacidad</a></li>
+            <li><a href="#" class="text-gray-300 hover:text-vet-primary transition-colors"><%= t('footer.aboutUs') %></a></li>
+            <li><a href="#" class="text-gray-300 hover:text-vet-primary transition-colors"><%= t('footer.faq') %></a></li>
+            <li><a href="#" class="text-gray-300 hover:text-vet-primary transition-colors"><%= t('footer.termsConditions') %></a></li>
+            <li><a href="#" class="text-gray-300 hover:text-vet-primary transition-colors"><%= t('footer.privacyPolicy') %></a></li>
           </ul>
         </div>
       </div>
       <div class="border-t border-gray-800 mt-12 pt-8 text-center">
-        <p class="text-gray-400">&copy; 2025 Patitas Móviles. Todos los derechos reservados.</p>
+        <p class="text-gray-400">&copy; 2025 Patitas Móviles. <%= t('footer.allRightsReserved') %></p>
       </div>
     </div>
   </footer>
+
+
+
+
+
+
+
+
+
+
+
 </script>
 </body>
 </html>

@@ -50,7 +50,7 @@ if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: process.env.GOOGLE_CALLBACK_URL || '/callback'
+      callbackURL: 'https://p2-31031669-4-8zow.onrender.com/callback'
     },
     async (accessToken: string, refreshToken: string, profile: any, done) => {
       try {
